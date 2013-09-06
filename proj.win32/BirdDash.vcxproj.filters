@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\base">
+      <UniqueIdentifier>{9587313a-57ad-4ec6-ae2f-3338b3d00461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\game">
+      <UniqueIdentifier>{45e1ef6f-58ef-4134-a8c1-c3cb372e4ac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\common">
+      <UniqueIdentifier>{29ab775c-c996-4401-9a53-add0681775e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\game\components">
+      <UniqueIdentifier>{9d06040f-0c81-44a4-acbe-165a68301493}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Base\BaseScene.cpp">
+      <Filter>Classes\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\GameMain.cpp">
+      <Filter>Classes\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\common\VisibleRect.cpp">
+      <Filter>Classes\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\components\ShakeBird.cpp">
+      <Filter>Classes\game\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\base\BaseSprite.cpp">
+      <Filter>Classes\base</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Base\BaseScene.h">
+      <Filter>Classes\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\GameMain.h">
+      <Filter>Classes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\common\CommonHeaders.h">
+      <Filter>Classes\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\common\VisibleRect.h">
+      <Filter>Classes\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\common\Alias.h">
+      <Filter>Classes\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\components\ShakeBird.h">
+      <Filter>Classes\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\base\BaseSprite.h">
+      <Filter>Classes\base</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
