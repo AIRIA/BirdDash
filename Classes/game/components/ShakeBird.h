@@ -6,6 +6,7 @@ class ShakeBird:public BaseSprite
 private:
     int shakeTimes;
 public:
+	int featherId;
     ShakeBird():shakeTimes(0) {};
     static ShakeBird *createShakeBird(const char *pszName);
     void shake(CCObject *pSender);

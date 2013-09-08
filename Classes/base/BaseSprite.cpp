@@ -20,7 +20,7 @@ void BaseSprite::setBeganTarget( CCObject* target,SEL_MenuHandler beganHandler )
 void BaseSprite::setEndedTarget( CCObject* target,SEL_MenuHandler endedHandler )
 {
     endedTarget = target;
-    endedHandler = endedHandler;
+    endedSelector = endedHandler;
 }
 
 void BaseSprite::setMovedTarget( CCObject* target,SEL_MenuHandler movedHandler )
@@ -68,7 +68,8 @@ bool BaseSprite::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
     if(isContainPoint(pTouch))
     {
         playEffect();
-        (beganTarget->*beganSelector)(this);
+        if(beganTarget)
+            (beganTarget->*beganSelector)(this);
         return true;
     }
     return false;
@@ -111,5 +112,16 @@ void BaseSprite::playEffect()
 {
     if(soundName)
         SimpleAudioEngine::sharedEngine()->playEffect(this->soundName);
+}
+
+BaseSprite * BaseSprite::createFromFile( const char *pszFileName,const char *soundName/*=NULL*/ )
+{
+	BaseSprite *baseSpr = new BaseSprite();
+	if(baseSpr&&baseSpr->initWithFile(pszFileName))
+	{
+		baseSpr->autorelease();
+		baseSpr->soundName = soundName;
+	}
+	return baseSpr;
 }
 

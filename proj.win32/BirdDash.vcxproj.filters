@@ -19,6 +19,12 @@
     <Filter Include="Classes\game\components">
       <UniqueIdentifier>{9d06040f-0c81-44a4-acbe-165a68301493}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\game\scenes">
+      <UniqueIdentifier>{bc31cf62-8f9b-484d-9a84-b904fba5e334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\game\utils">
+      <UniqueIdentifier>{83d14602-8cb7-4892-b3d6-101c55e123a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +47,21 @@
     </ClCompile>
     <ClCompile Include="..\Classes\base\BaseSprite.cpp">
       <Filter>Classes\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\scenes\SettingScene.cpp">
+      <Filter>Classes\game\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\base\BaseUserDefault.cpp">
+      <Filter>Classes\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\utils\BirdUtil.cpp">
+      <Filter>Classes\game\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\scenes\ClassicScene.cpp">
+      <Filter>Classes\game\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\components\PauseLayer.cpp">
+      <Filter>Classes\game\components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +91,21 @@
     </ClInclude>
     <ClInclude Include="..\Classes\base\BaseSprite.h">
       <Filter>Classes\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\scenes\SettingScene.h">
+      <Filter>Classes\game\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\base\BaseUserDefault.h">
+      <Filter>Classes\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\utils\BirdUtil.h">
+      <Filter>Classes\game\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\scenes\ClassicScene.h">
+      <Filter>Classes\game\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\components\PauseLayer.h">
+      <Filter>Classes\game\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

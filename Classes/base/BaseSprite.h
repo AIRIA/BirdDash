@@ -33,6 +33,8 @@ public:
      * @param soundName 在触摸的时候播放的音效
      */
     static BaseSprite *createSprite(const char *pszFileName,const char *soundName=NULL);
+	static BaseSprite *createFromFile(const char *pszFileName,const char *soundName=NULL);
+
     /* 开始触摸的时候触发 */
     void setBeganTarget(CCObject* target,SEL_MenuHandler beganHandler);
     /* 移动的时候触发 */

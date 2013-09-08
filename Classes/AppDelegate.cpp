@@ -24,6 +24,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     pDirector->setAnimationInterval(1.0 / 60);
     CCScene *pScene = GameMain::create();
     pDirector->runWithScene(pScene);
+	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("sounds/BGM/Main_bgm.mp3");
     return true;
 }
 

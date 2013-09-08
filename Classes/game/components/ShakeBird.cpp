@@ -1,4 +1,5 @@
 ﻿#include "ShakeBird.h"
+#include "game/utils/BirdUtil.h"
 
 ShakeBird * ShakeBird::createShakeBird(const char *pszName)
 {
@@ -16,14 +17,17 @@ void ShakeBird::shake(CCObject *pSender)
     setTouchEnabled(false);
     srand((unsigned)time(NULL));
 	startShake();
+	SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_vibration.mp3");
 }
 
 void ShakeBird::startShake()
 {
     shakeTimes++;
-    if(shakeTimes==35)
+    if(shakeTimes==30)
     {
-		
+		SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_remove(2).mp3");
+		CCString *featherName = CCString::createWithFormat("box0%d_feather@2x.png",featherId);
+		BirdUtil::createRandomFeather(this,featherName->getCString(),10);
         return ;
     }
     int moveX = rand()%3+1;
