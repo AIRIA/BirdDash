@@ -7,6 +7,7 @@ class ClassicScene:public BaseScene
 {
 private:
 	void initBg();
+	void pauseGame(CCObject *pSender);
 protected:
 	virtual void loadAsset();
 public:

@@ -1,5 +1,6 @@
 ﻿#include "ClassicScene.h"
 #include "base/BaseSprite.h"
+#include "game/components/PauseLayer.h"
 
 bool ClassicScene::init()
 {
@@ -27,9 +28,10 @@ void ClassicScene::initBg()
 	bgWood->runAction(moveAct);
 	addChild(bgWood);
 	addChild(floor);
-	CCSprite *pauseBtn = BaseSprite::createFromFile("images/stage_classic/stage_dimm2_RETINA.png");
+	BaseSprite *pauseBtn = BaseSprite::createFromFile("images/stage_classic/stage_dimm2_RETINA.png");
 	pauseBtn->setPosition(ccp(50,VisibleRect::top().y-50));
 	pauseBtn->setOpacity(0);
+	pauseBtn->setBeganTarget(this,menu_selector(ClassicScene::pauseGame));
 	addChild(pauseBtn);
 }
 
@@ -38,6 +40,13 @@ void ClassicScene::loadAsset()
 	frameCache->addSpriteFramesWithFile("images/stage_classic/stage_RETINA.plist");
 	frameCache->addSpriteFramesWithFile("images/stage_classic/numbers_RETINA.plist");
 	frameCache->addSpriteFramesWithFile("images/stage_classic/stage_CN_RETINA.plist");
-	//frameCache->addSpriteFramesWithFile("images/pause/");
+	frameCache->addSpriteFramesWithFile("images/pause/paused_RETINA.plist");
+	frameCache->addSpriteFramesWithFile("images/pause/paused_CN_RETINA.plist");
+}
+
+void ClassicScene::pauseGame(CCObject *pSender)
+{
+	PauseLayer *pl = PauseLayer::create();
+	addChild(pl);
 }
 

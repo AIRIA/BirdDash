@@ -20,7 +20,7 @@ protected:
     bool touchEnable;
     void playEffect();
 public:
-    BaseSprite():soundName(NULL),beganTarget(NULL),beganSelector(NULL),endedTarget(NULL),endedSelector(NULL),movedTarget(NULL),movedSelector(NULL) {};
+    BaseSprite():soundName(NULL),beganTarget(NULL),beganSelector(NULL),endedTarget(NULL),endedSelector(NULL),movedTarget(NULL),movedSelector(NULL),touchPriority(0) {};
     virtual void onEnter();
     virtual void onExit();
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
