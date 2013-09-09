@@ -9,9 +9,10 @@ protected:
     /* 此处加载该场景所需要的资源 */
     virtual void loadAsset() {};
     CCSize winSize;
+	bool isShowExit;
 public:
     CCSpriteFrameCache *frameCache;
-    BaseScene():frameCache(NULL)
+    BaseScene():frameCache(NULL),isShowExit(false)
     {
         winSize = CCDirector::sharedDirector()->getWinSize();
     };

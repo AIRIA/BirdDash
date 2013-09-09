@@ -15,6 +15,8 @@ private:
 	float yesX;
 	float noX;
 public:
+	virtual void onEnter();
+	virtual void onExit();
 	void exitGame(CCObject *pSender);
 	void resumeGame(CCObject *pSender);
     virtual bool init();

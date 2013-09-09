@@ -138,6 +138,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\game\GameMain.cpp" />
     <ClCompile Include="..\Classes\game\scenes\ClassicScene.cpp" />
     <ClCompile Include="..\Classes\game\scenes\SettingScene.cpp" />
+    <ClCompile Include="..\Classes\game\scenes\SplashScene.cpp" />
     <ClCompile Include="..\Classes\game\utils\BirdUtil.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -155,6 +156,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\game\GameMain.h" />
     <ClInclude Include="..\Classes\game\scenes\ClassicScene.h" />
     <ClInclude Include="..\Classes\game\scenes\SettingScene.h" />
+    <ClInclude Include="..\Classes\game\scenes\SplashScene.h" />
     <ClInclude Include="..\Classes\game\utils\BirdUtil.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

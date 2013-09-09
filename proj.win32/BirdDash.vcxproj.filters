@@ -66,6 +66,9 @@
     <ClCompile Include="..\Classes\game\components\ExitWin.cpp">
       <Filter>Classes\game\components</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\game\scenes\SplashScene.cpp">
+      <Filter>Classes\game\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\game\components\ExitWin.h">
       <Filter>Classes\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\scenes\SplashScene.h">
+      <Filter>Classes\game\scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 ﻿#include "ExitWin.h"
 
-#define BB_WIN_EXIT_TIME 0.2f
+#define BB_WIN_EXIT_TIME 0.3f
 
 bool ExitWin::init()
 {
@@ -51,14 +51,13 @@ void ExitWin::initBgLayer()
 void ExitWin::exitGame( CCObject *pSender )
 {
     CCDirector::sharedDirector()->end();
-#if (CC_PLATFORM_ANDROID==CC_TARGET_PLATFORM)
+#if (CC_PLATFORM_IOS==CC_TARGET_PLATFORM)
     exit(0);
 #endif
 }
 
 void ExitWin::resumeGame( CCObject *pSender )
 {
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(HIDE_EXIT_WIN);
     CCActionInterval *yesMove = CCMoveTo::create(BB_WIN_EXIT_TIME,ccp(-400,yes->getPositionY()));
     CCActionInterval *noMove = CCMoveTo::create(BB_WIN_EXIT_TIME,ccp(400,no->getPositionY()));
     CCActionInterval *fadeOut = CCFadeOut::create(BB_WIN_EXIT_TIME);
@@ -73,6 +72,19 @@ void ExitWin::resumeGame( CCObject *pSender )
 
 void ExitWin::destroy()
 {
+	CCNotificationCenter::sharedNotificationCenter()->postNotification(HIDE_EXIT_WIN);
     removeFromParentAndCleanup(true);
+}
+
+void ExitWin::onEnter()
+{
+	CCLayer::onEnter();
+	CCNotificationCenter::sharedNotificationCenter()->addObserver(this,callfuncO_selector(ExitWin::resumeGame),RESUME_GAME,NULL);
+}
+
+void ExitWin::onExit()
+{
+	CCLayer::onExit();
+	CCNotificationCenter::sharedNotificationCenter()->removeObserver(this,RESUME_GAME);
 }
 

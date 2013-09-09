@@ -49,13 +49,23 @@ void ClassicScene::pauseGame(CCObject *pSender)
 {
     PauseLayer *pl = PauseLayer::create();
     addChild(pl);
-	keyBackClicked();
 }
 
 
 void ClassicScene::keyBackClicked()
 {
-    addChild(ExitWin::create());
+    if(isShowExit)
+    {
+       CCNotificationCenter::sharedNotificationCenter()->postNotification(RESUME_GAME);
+	   isShowExit = false;
+    }
+    else
+    {
+        addChild(ExitWin::create());
+		isShowExit = true;
+    }
+
+
 }
 
 

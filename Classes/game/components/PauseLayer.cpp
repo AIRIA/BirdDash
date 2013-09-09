@@ -50,7 +50,6 @@ void PauseLayer::initMenu()
     menuNode->setPosition(ccp(VisibleRect::center().x,-232));
     menuNode->addChild(menuBg);
     menuNode->addChild(gameMenu);
-    gameMenu->setTag(kPauseMenu);
     gameMenu->setPosition(ccp(65,-60));
     CCActionInterval *moveAct = CCMoveTo::create(PAUSE_SLIDE_TIME,ccp(VisibleRect::center().x,232));
     menuNode->runAction(moveAct);
@@ -93,4 +92,5 @@ void PauseLayer::onExit()
 {
 	CCLayer::onExit();
 	CCNotificationCenter::sharedNotificationCenter()->removeObserver(this,SHOW_EXIT_WIN);
+	CCNotificationCenter::sharedNotificationCenter()->removeObserver(this,HIDE_EXIT_WIN);
 }

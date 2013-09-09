@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "game/GameMain.h"
 #include "SimpleAudioEngine.h"
+#include "game/scenes/SplashScene.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -22,9 +23,15 @@ bool AppDelegate::applicationDidFinishLaunching()
     pEGLView->setDesignResolutionSize(640,960,kResolutionExactFit);
     pDirector->setDisplayStats(true);
     pDirector->setAnimationInterval(1.0 / 60);
-    CCScene *pScene = GameMain::create();
-    pDirector->runWithScene(pScene);
-	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("sounds/BGM/Main_bgm.mp3");
+
+#if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
+    pDirector->runWithScene(SplashScene::create());
+#endif
+#if(CC_TARGET_PLATFORM!=CC_PLATFORM_ANDROID)
+	//pDirector->runWithScene(SplashScene::create());
+    SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("sounds/BGM/Main_bgm.mp3");
+    pDirector->runWithScene(GameMain::create());
+#endif
     return true;
 }
 
