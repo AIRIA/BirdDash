@@ -1,20 +1,35 @@
 ﻿#include "ExitWin.h"
 
+#define BB_WIN_EXIT_TIME 0.2f
+
 bool ExitWin::init()
 {
     do
     {
         CC_BREAK_IF(!CCLayer::init());
         initBgLayer();
-        CCSprite *winBg = CCSprite::create("images/exit/exit_bg.png");
+        winBg = CCSprite::create("images/exit/exit_bg.png");
+        winBg->setScale(0);
+        CCActionInterval *scaleBig = CCScaleTo::create(BB_WIN_EXIT_TIME,1);
+        CCActionInterval *fadeIn = CCFadeIn::create(BB_WIN_EXIT_TIME);
+        winBg->runAction(CCEaseBackOut::create(scaleBig));
         winBg->setPosition(VisibleRect::center());
-        CCMenuItemSprite *yes = CCMenuItemSprite::create(SPRITE(images/exit/exit_yes_normal.png),SPRITE(images/exit/exit_yes_push.png),this,menu_selector(ExitWin::exitGame));
-        CCMenuItemSprite *no = CCMenuItemSprite::create(SPRITE(images/exit/exit_no_normal.png),SPRITE(images/exit/exit_no_push.png),this,menu_selector(ExitWin::resumeGame));
+        yes = CCMenuItemSprite::create(SPRITE(images/exit/exit_yes_normal.png),SPRITE(images/exit/exit_yes_push.png),this,menu_selector(ExitWin::exitGame));
+        no = CCMenuItemSprite::create(SPRITE(images/exit/exit_no_normal.png),SPRITE(images/exit/exit_no_push.png),this,menu_selector(ExitWin::resumeGame));
         CCMenu *exitMenu = CCMenu::create(yes,no,NULL);
         exitMenu->alignItemsHorizontally();
+        yesX = yes->getPositionX();
+        noX = no->getPositionX();
+        yes->setPosition(ccp(-400,yes->getPositionY()));
+        no->setPosition(ccp(400,no->getPositionY()));
         addChild(winBg);
         exitMenu->setPosition(ccp(VisibleRect::center().x,VisibleRect::center().y-70));
         addChild(exitMenu);
+        CCActionInterval *yesMove = CCMoveTo::create(BB_WIN_EXIT_TIME,ccp(yesX,yes->getPositionY()));
+        CCActionInterval *noMove = CCMoveTo::create(BB_WIN_EXIT_TIME,ccp(noX,no->getPositionY()));
+        yes->runAction(CCSpawn::create(yesMove,fadeIn->copy(),NULL));
+        no->runAction(CCSpawn::create(noMove,fadeIn->copy(),NULL));
+
         CCNotificationCenter::sharedNotificationCenter()->postNotification(SHOW_EXIT_WIN);
         return true;
     }
@@ -44,6 +59,20 @@ void ExitWin::exitGame( CCObject *pSender )
 void ExitWin::resumeGame( CCObject *pSender )
 {
     CCNotificationCenter::sharedNotificationCenter()->postNotification(HIDE_EXIT_WIN);
+    CCActionInterval *yesMove = CCMoveTo::create(BB_WIN_EXIT_TIME,ccp(-400,yes->getPositionY()));
+    CCActionInterval *noMove = CCMoveTo::create(BB_WIN_EXIT_TIME,ccp(400,no->getPositionY()));
+    CCActionInterval *fadeOut = CCFadeOut::create(BB_WIN_EXIT_TIME);
+    yes->runAction(CCSpawn::create(yesMove,fadeOut,NULL));
+    no->runAction(CCSpawn::create(noMove,fadeOut->copy(),NULL));
+    CCActionInterval *scaleHide = CCScaleTo::create(BB_WIN_EXIT_TIME,0);
+    CCCallFunc *destroyHandler = CCCallFunc::create(this,callfunc_selector(ExitWin::destroy));
+    CCSequence *hideSeq = CCSequence::create(CCSpawn::create((CCActionInterval*)fadeOut->copy(),CCEaseBackIn::create(scaleHide),NULL),destroyHandler,NULL);
+    winBg->runAction(hideSeq);
+    bgLayer->runAction((CCActionInterval*)fadeOut->copy());
+}
+
+void ExitWin::destroy()
+{
     removeFromParentAndCleanup(true);
 }
 

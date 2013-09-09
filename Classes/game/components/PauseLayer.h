@@ -8,6 +8,7 @@ class PauseLayer:public CCLayer
 private:
 	CCLayerColor *bgLayer;
 	CCNode *menuNode;
+	CCMenu *gameMenu;
 	void initBgLayer();
 	void initMenu();
 	void resumeHandler(CCObject *pSender);

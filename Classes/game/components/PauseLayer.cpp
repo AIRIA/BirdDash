@@ -44,7 +44,7 @@ void PauseLayer::initMenu()
     CCMenuItemSprite *resumeGame = CCMenuItemSprite::create(SPRITE_FRAME(paused_resume_normal_china.png),SPRITE_FRAME(paused_resume_push_china.png),this,menu_selector(PauseLayer::resumeHandler));
     CCMenuItemSprite *restartGame = CCMenuItemSprite::create(SPRITE_FRAME(paused_restart_normal_china.png),SPRITE_FRAME(paused_restart_push_china.png));
     CCMenuItemSprite *quitGame = CCMenuItemSprite::create(SPRITE_FRAME(paused_quit_normal_china.png),SPRITE_FRAME(paused_quit_push_china.png),this,menu_selector(PauseLayer::quitHandler));
-    CCMenu *gameMenu = CCMenu::create(resumeGame,restartGame,quitGame,NULL);
+    gameMenu = CCMenu::create(resumeGame,restartGame,quitGame,NULL);
     gameMenu->alignItemsVerticallyWithPadding(15);
     CCSprite *menuBg = SPRITE_FRAME(paused_bg.png);
     menuNode->setPosition(ccp(VisibleRect::center().x,-232));
@@ -86,7 +86,6 @@ void PauseLayer::onEnter()
 
 void PauseLayer::showExit( CCObject* pSender )
 {
-    CCMenu *gameMenu = (CCMenu*)(menuNode->getChildByTag(kPauseMenu));
     gameMenu->setTouchEnabled(!gameMenu->isTouchEnabled());
 }
 

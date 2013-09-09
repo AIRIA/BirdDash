@@ -7,7 +7,13 @@ class ExitWin:public CCLayer
 {
 private:
 	CCLayerColor *bgLayer;
+	CCMenuItemSprite *yes;
+	CCMenuItemSprite *no;
+	CCSprite *winBg;
 	void initBgLayer();
+	void destroy();
+	float yesX;
+	float noX;
 public:
 	void exitGame(CCObject *pSender);
 	void resumeGame(CCObject *pSender);
