@@ -13,6 +13,7 @@ protected:
 public:
 	virtual bool init();
 	CREATE_FUNC(ClassicScene);
+	virtual void keyBackClicked();
 };
 
 #endif // !_CLASSICSCENE_H_

@@ -1,6 +1,9 @@
 ﻿#ifndef _ALIAS_H_
 #define _ALIAS_H_
 
+#define SHOW_EXIT_WIN "showexitwindow"
+#define HIDE_EXIT_WIN "hideexitwindow"
+
 #define SPRITE(url) CCSprite::create(#url)
 #define SPRITE_FRAME(URL) CCSprite::createWithSpriteFrameName(#URL)
 #define CONFIG_GETBOOL CCUserDefault::sharedUserDefault()->getBoolForKey(#key,true);

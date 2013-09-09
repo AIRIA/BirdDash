@@ -63,6 +63,9 @@
     <ClCompile Include="..\Classes\game\components\PauseLayer.cpp">
       <Filter>Classes\game\components</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\game\components\ExitWin.cpp">
+      <Filter>Classes\game\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -105,6 +108,9 @@
       <Filter>Classes\game\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\game\components\PauseLayer.h">
+      <Filter>Classes\game\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\components\ExitWin.h">
       <Filter>Classes\game\components</Filter>
     </ClInclude>
   </ItemGroup>
