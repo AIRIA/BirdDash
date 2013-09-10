@@ -14,7 +14,7 @@ bool PauseLayer::init()
     do
     {
         CC_BREAK_IF(!CCLayer::init());
-        setTouchEnabled(true);
+		SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
         initBgLayer();
         initMenu();
         return true;
@@ -59,6 +59,7 @@ void PauseLayer::initMenu()
 
 void PauseLayer::resumeHandler( CCObject *pSender )
 {
+	SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
     CCActionInterval *moveDown = CCMoveTo::create(PAUSE_SLIDE_TIME,ccp(VisibleRect::center().x,-232));
     CCActionInterval *fadeOut = CCFadeTo::create(PAUSE_SLIDE_TIME,0);
     bgLayer->runAction(fadeOut);

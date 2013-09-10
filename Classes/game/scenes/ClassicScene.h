@@ -2,12 +2,14 @@
 #define _CLASSICSCENE_H_
 
 #include "base/BaseScene.h"
+#include "game/components/BirdLayer.h"
 
 class ClassicScene:public BaseScene
 {
 private:
 	void initBg();
 	void pauseGame(CCObject *pSender);
+	BirdLayer *birdLayer;
 protected:
 	virtual void loadAsset();
 public:

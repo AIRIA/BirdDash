@@ -6,8 +6,6 @@
 class BaseSprite:public CCSprite,public CCTouchDelegate
 {
 private:
-    /* 触摸的点是否在节点的响应区域内 */
-    bool isContainPoint(CCTouch *pTouch);
     const char *soundName;
 protected:
     CCObject *beganTarget;
@@ -19,6 +17,8 @@ protected:
     int touchPriority;
     bool touchEnable;
     void playEffect();
+	/* 触摸的点是否在节点的响应区域内 */
+	bool isContainPoint(CCTouch *pTouch);
 public:
     BaseSprite():soundName(NULL),beganTarget(NULL),beganSelector(NULL),endedTarget(NULL),endedSelector(NULL),movedTarget(NULL),movedSelector(NULL),touchPriority(0) {};
     virtual void onEnter();

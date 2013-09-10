@@ -25,6 +25,9 @@
     <Filter Include="Classes\game\utils">
       <UniqueIdentifier>{83d14602-8cb7-4892-b3d6-101c55e123a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\game\models">
+      <UniqueIdentifier>{70863bd4-b05b-4319-87e4-8993195384e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +77,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\base\BaseMenuSprite.cpp">
       <Filter>Classes\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\models\Bird.cpp">
+      <Filter>Classes\game\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\components\BirdLayer.cpp">
+      <Filter>Classes\game\components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\base\BaseMenuSprite.h">
       <Filter>Classes\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\models\Bird.h">
+      <Filter>Classes\game\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\components\BirdLayer.h">
+      <Filter>Classes\game\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

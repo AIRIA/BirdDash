@@ -3,37 +3,38 @@
 #define ACT_TIME 1.5f
 
 CCSpriteBatchNode *BirdUtil::featherBatchNode = NULL;
+Bird *BirdUtil::birds[PP_ROW][PP_COL] = {};
 
 void BirdUtil::createRandomFeather( CCNode *bird,const char *feather,int featherNum )
 {
     CCSprite *featherSpr = CCSprite::createWithSpriteFrameName(feather);
     CCPoint birdPos = bird->getPosition();
     featherBatchNode = CCSpriteBatchNode::createWithTexture(featherSpr->getTexture());
-	featherBatchNode->setPosition(CCPointZero);
-	srand((unsigned)time(NULL));
+    featherBatchNode->setPosition(CCPointZero);
+    srand((unsigned)time(NULL));
     for(int i=0; i<featherNum; i++)
     {
         CCSprite *birdFeather = CCSprite::createWithSpriteFrameName(feather);
-		birdFeather->setPosition(birdPos);
-		CCPoint randomPoint = createRandomPoint(birdPos,70);
-		float scaleFac = (rand()%10)*0.1+0.5;
-		birdFeather->setScale(scaleFac);
+        birdFeather->setPosition(birdPos);
+        CCPoint randomPoint = createRandomPoint(birdPos,70);
+        float scaleFac = (rand()%10)*0.1+0.5;
+        birdFeather->setScale(scaleFac);
         CCActionInterval *moveAct = CCMoveTo::create(0.1f,randomPoint);
-		CCRotateTo *rotateTo = CCRotateTo::create(0.2f,0);
-		CCMoveBy *moveDown = CCMoveBy::create(ACT_TIME,ccp(0,-40));
-		CCActionInterval *fadeOut = CCFadeOut::create(ACT_TIME);
-		CCActionInterval *rl = CCRotateBy::create(0.2f,25);
-		CCActionInterval *rr = CCRotateBy::create(0.2f,-25);
-		CCSequence *rotateSeq = CCSequence::create(rotateTo,rl,rl->reverse(),rr,rr->reverse(),rl,NULL);
-		CCSpawn *fly = CCSpawn::create(fadeOut,rotateSeq,moveDown,NULL);
-		CCSequence *seqAct = CCSequence::create(moveAct,fly,NULL);
+        CCRotateTo *rotateTo = CCRotateTo::create(0.2f,0);
+        CCMoveBy *moveDown = CCMoveBy::create(ACT_TIME,ccp(0,-40));
+        CCActionInterval *fadeOut = CCFadeOut::create(ACT_TIME);
+        CCActionInterval *rl = CCRotateBy::create(0.2f,25);
+        CCActionInterval *rr = CCRotateBy::create(0.2f,-25);
+        CCSequence *rotateSeq = CCSequence::create(rotateTo,rl,rl->reverse(),rr,rr->reverse(),rl,NULL);
+        CCSpawn *fly = CCSpawn::create(fadeOut,rotateSeq,moveDown,NULL);
+        CCSequence *seqAct = CCSequence::create(moveAct,fly,NULL);
         int rotate = rand()%360;
         birdFeather->setRotation(rotate);
         birdFeather->runAction(seqAct);
-		featherBatchNode->addChild(birdFeather);
+        featherBatchNode->addChild(birdFeather);
     }
-	bird->getParent()->getParent()->addChild(featherBatchNode);
-	bird->removeFromParentAndCleanup(true);
+    bird->getParent()->getParent()->addChild(featherBatchNode);
+    bird->removeFromParentAndCleanup(true);
 }
 
 cocos2d::CCPoint BirdUtil::createRandomPoint( CCPoint pos,int range )
@@ -48,4 +49,36 @@ cocos2d::CCPoint BirdUtil::createRandomPoint( CCPoint pos,int range )
     x *= direcX;
     y *= direcY;
     return CCPointMake(pos.x+x,pos.y+y);
+}
+
+void BirdUtil::initBirds()
+{
+	srand((unsigned)time(NULL));
+    for(int row=2; row>=0; row--)
+    {
+        for(int col=6; col>=0; col--)
+        {
+			birds[row][col] = Bird::createBird(0);
+        }
+    }
+}
+
+void BirdUtil::initAnimate()
+{
+	CCAnimationCache *animationCache = CCAnimationCache::sharedAnimationCache();
+	CCSpriteFrameCache *frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
+	for(int i=0;i<8;i++)
+	{
+		CCArray *frames = CCArray::createWithCapacity(2);
+		CCString *s1 = CCString::createWithFormat("box0%d_normal_00@2x.png",i);
+		CCString *s2 = CCString::createWithFormat("box0%d_normal_02@2x.png",i);
+		CCSpriteFrame *frame1 = frameCache->spriteFrameByName(s1->getCString());
+		CCSpriteFrame *frame2 = frameCache->spriteFrameByName(s2->getCString());
+		frames->addObject(frame1);
+		frames->addObject(frame2);
+		frames->addObject(frame1->copy());
+		CCAnimation *animation = CCAnimation::createWithSpriteFrames(frames,0.2f);
+		CCString *aniName = CCString::createWithFormat("box0%d",i);
+		animationCache->addAnimation(animation,aniName->getCString());
+	}
 }

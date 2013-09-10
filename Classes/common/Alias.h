@@ -4,6 +4,8 @@
 #define SHOW_EXIT_WIN "showexitwindow"
 #define HIDE_EXIT_WIN "hideexitwindow"
 #define RESUME_GAME "resume_game"
+#define PP_ROW 9
+#define PP_COL 7
 
 #define SPRITE(url) CCSprite::create(#url)
 #define SPRITE_FRAME(URL) CCSprite::createWithSpriteFrameName(#URL)
