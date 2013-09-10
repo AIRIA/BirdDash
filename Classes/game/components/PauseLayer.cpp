@@ -1,5 +1,6 @@
 ﻿#include "PauseLayer.h"
 #include "game/GameMain.h"
+#include "base/BaseMenuSprite.h"
 
 #define PAUSE_SLIDE_TIME 0.3f
 
@@ -41,9 +42,9 @@ void PauseLayer::registerWithTouchDispatcher()
 void PauseLayer::initMenu()
 {
     menuNode = CCNode::create();
-    CCMenuItemSprite *resumeGame = CCMenuItemSprite::create(SPRITE_FRAME(paused_resume_normal_china.png),SPRITE_FRAME(paused_resume_push_china.png),this,menu_selector(PauseLayer::resumeHandler));
-    CCMenuItemSprite *restartGame = CCMenuItemSprite::create(SPRITE_FRAME(paused_restart_normal_china.png),SPRITE_FRAME(paused_restart_push_china.png));
-    CCMenuItemSprite *quitGame = CCMenuItemSprite::create(SPRITE_FRAME(paused_quit_normal_china.png),SPRITE_FRAME(paused_quit_push_china.png),this,menu_selector(PauseLayer::quitHandler));
+    CCMenuItemSprite *resumeGame = BaseMenuSprite::createMenuSprite(SPRITE_FRAME(paused_resume_normal_china.png),SPRITE_FRAME(paused_resume_push_china.png),NULL,this,menu_selector(PauseLayer::resumeHandler),"sounds/SFX/buttonclick.mp3");
+    CCMenuItemSprite *restartGame = BaseMenuSprite::createMenuSprite(SPRITE_FRAME(paused_restart_normal_china.png),SPRITE_FRAME(paused_restart_push_china.png),NULL,NULL,NULL,"sounds/SFX/buttonclick.mp3");
+    CCMenuItemSprite *quitGame = BaseMenuSprite::createMenuSprite(SPRITE_FRAME(paused_quit_normal_china.png),SPRITE_FRAME(paused_quit_push_china.png),NULL,this,menu_selector(PauseLayer::quitHandler),"sounds/SFX/buttonclick.mp3");
     gameMenu = CCMenu::create(resumeGame,restartGame,quitGame,NULL);
     gameMenu->alignItemsVerticallyWithPadding(15);
     CCSprite *menuBg = SPRITE_FRAME(paused_bg.png);

@@ -1,6 +1,7 @@
 ﻿#include "GameMain.h"
 #include "game/components/ShakeBird.h"
 #include "base/BaseSprite.h"
+#include "base/BaseMenuSprite.h"
 #include "game/scenes/SettingScene.h"
 #include "game/scenes/ClassicScene.h"
 #include "game/components/ExitWin.h"
@@ -124,8 +125,8 @@ void GameMain::setBird( const char *birdName,CCPoint pos,CCPoint upDown,int feat
 
 void GameMain::setSetting()
 {
-    CCMenuItemSprite *settingSpr = CCMenuItemSprite::create(SPRITE_FRAME(main_option_china@2x.png),SPRITE_FRAME(main_option_push_china@2x.png),this,menu_selector(GameMain::jumptoSetting));
-    CCMenuItemSprite *rankSpr = CCMenuItemSprite::create(SPRITE_FRAME(main_rank_china@2x.png),SPRITE_FRAME(main_rank_push_china@2x.png));
+    BaseMenuSprite *settingSpr = BaseMenuSprite::createMenuSprite(SPRITE_FRAME(main_option_china@2x.png),SPRITE_FRAME(main_option_push_china@2x.png),NULL,this,menu_selector(GameMain::jumptoSetting),"sounds/SFX/buttonclick.mp3");
+    BaseMenuSprite *rankSpr = BaseMenuSprite::createMenuSprite(SPRITE_FRAME(main_rank_china@2x.png),SPRITE_FRAME(main_rank_push_china@2x.png),NULL,NULL,NULL,"sounds/SFX/buttonclick.mp3");
     CCMenu *setMenu = CCMenu::create(settingSpr,rankSpr,NULL);
     setMenu->setPosition(ccp(130,115));
     setMenu->alignItemsHorizontallyWithPadding(-5);
@@ -139,7 +140,7 @@ void GameMain::jumptoSetting( CCObject *pSender )
 
 void GameMain::menuBgComplete()
 {
-	CCMenuItemSprite *classic = CCMenuItemSprite::create(SPRITE_FRAME(main_menu_classic_china@2x.png),SPRITE_FRAME(main_menu_classic_push_china@2x.png),this,menu_selector(GameMain::jumptoStageClassic));
+	CCMenuItemSprite *classic = BaseMenuSprite::createMenuSprite(SPRITE_FRAME(main_menu_classic_china@2x.png),SPRITE_FRAME(main_menu_classic_push_china@2x.png),NULL,this,menu_selector(GameMain::jumptoStageClassic),"sounds/SFX/buttonclick.mp3");
 	classic->setRotation(-5);
 	CCMenu *gameMenu = CCMenu::create(classic,NULL);
 	gameMenu->setPosition(ccp(410,480));

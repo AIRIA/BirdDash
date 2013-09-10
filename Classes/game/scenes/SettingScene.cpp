@@ -1,5 +1,6 @@
 ﻿#include "SettingScene.h"
 #include "base/BaseSprite.h"
+#include "base/BaseMenuSprite.h"
 #include "game/GameMain.h"
 
 bool SettingScene::init()
@@ -22,7 +23,7 @@ bool SettingScene::init()
         addChild(credits);
         res = true;
         //home
-        BaseSprite *homeSpr = BaseSprite::createSprite("scores_home@2x.png");
+        BaseSprite *homeSpr = BaseSprite::createSprite("scores_home@2x.png","sounds/SFX/buttonclick.mp3");
         homeSpr->setPosition(ccp(VisibleRect::right().x-68,68));
         homeSpr->setEndedTarget(this,menu_selector(SettingScene::backToHome));
         addChild(homeSpr);

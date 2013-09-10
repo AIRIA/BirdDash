@@ -72,6 +72,9 @@
     <ClCompile Include="..\Classes\base\MaskLayer.cpp">
       <Filter>Classes\base</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\base\BaseMenuSprite.cpp">
+      <Filter>Classes\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -123,6 +126,9 @@
       <Filter>Classes\game\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\base\MaskLayer.h">
+      <Filter>Classes\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\base\BaseMenuSprite.h">
       <Filter>Classes\base</Filter>
     </ClInclude>
   </ItemGroup>
