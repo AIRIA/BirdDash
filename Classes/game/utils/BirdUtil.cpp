@@ -58,7 +58,8 @@ void BirdUtil::initBirds()
     {
         for(int col=6; col>=0; col--)
         {
-			birds[row][col] = Bird::createBird(0);
+			int type = rand()%5;
+			birds[row][col] = Bird::createBird(type);
         }
     }
 }

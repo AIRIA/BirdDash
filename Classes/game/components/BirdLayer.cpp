@@ -17,12 +17,10 @@ bool BirdLayer::init()
 	layerColor->setContentSize(layerSize);
 	float block = 526/7;
 	for(int i=7;i>=0;i--){
-		CCSprite *bird = Bird::createSprite("box00_normal_00@2x.png");
+		Bird *bird = Bird::createBird(i);
 		bird->setPosition(ccp(block*0.5,72*i+40));
 		layerColor->addChild(bird);
-		CCString *prefix = CCString::createWithFormat("box0%d",i);
-		CCAnimate *animate = CCAnimate::create(CCAnimationCache::sharedAnimationCache()->animationByName(prefix->getCString()));
-		bird->runAction(CCRepeat::create(animate,10));
+		bird->eyeclose();
 	}
 	
     addChild(layerColor);

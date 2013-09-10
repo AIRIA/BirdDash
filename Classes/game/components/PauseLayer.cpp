@@ -1,6 +1,7 @@
 ﻿#include "PauseLayer.h"
 #include "game/GameMain.h"
 #include "base/BaseMenuSprite.h"
+#include "base/MaskLayer.h"
 
 #define PAUSE_SLIDE_TIME 0.3f
 
@@ -15,6 +16,7 @@ bool PauseLayer::init()
     {
         CC_BREAK_IF(!CCLayer::init());
 		SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+		setTouchEnabled(true);
         initBgLayer();
         initMenu();
         return true;
@@ -25,7 +27,7 @@ bool PauseLayer::init()
 
 void PauseLayer::initBgLayer()
 {
-    bgLayer = CCLayerColor::create(ccc4(0,0,0,200));
+    bgLayer = CCLayerColor::create(ccc4(0,0,0,0));
     bgLayer->ignoreAnchorPointForPosition(true);
     bgLayer->setContentSize(CCDirector::sharedDirector()->getWinSize());
     bgLayer->setOpacity(0);
@@ -76,4 +78,9 @@ void PauseLayer::destroy()
 void PauseLayer::quitHandler( CCObject *pSender )
 {
     CCDirector::sharedDirector()->replaceScene(GameMain::create());
+}
+
+bool ccTouchBegan(CCTouch *pTouch,CCEvent *pEvent)
+{
+	return true;
 }
