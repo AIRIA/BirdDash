@@ -12,6 +12,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/base/BaseScene.cpp \
                    ../../Classes/base/BaseSprite.cpp \
                    ../../Classes/base/BaseUserDefault.cpp \
+                   ../../Classes/base/MaskLayer.cpp \
                    ../../Classes/common/VisibleRect.cpp \
                    ../../Classes/game/components/ExitWin.cpp \
                    ../../Classes/game/components/PauseLayer.cpp \

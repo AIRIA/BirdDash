@@ -18,9 +18,6 @@ public:
 	virtual void registerWithTouchDispatcher();
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent){return true;};
 	virtual bool init();
-	virtual void onEnter();
-	virtual void onExit();
-	void showExit(CCObject* pSender);
 	CREATE_FUNC(PauseLayer);
 };
 

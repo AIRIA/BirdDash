@@ -20,6 +20,7 @@ public:
 	void setMainbg();
     virtual bool init();
     CREATE_FUNC(GameMain);
+	virtual void keyBackClicked();
 };
 
 #endif // !_GAMEMAIN_H_

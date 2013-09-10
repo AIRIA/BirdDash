@@ -29,7 +29,7 @@ bool ExitWin::init()
         CCActionInterval *noMove = CCMoveTo::create(BB_WIN_EXIT_TIME,ccp(noX,no->getPositionY()));
         yes->runAction(CCSpawn::create(yesMove,fadeIn->copy(),NULL));
         no->runAction(CCSpawn::create(noMove,fadeIn->copy(),NULL));
-
+		exitMenu->setTouchPriority(INT_MIN);
         CCNotificationCenter::sharedNotificationCenter()->postNotification(SHOW_EXIT_WIN);
         return true;
     }
@@ -39,10 +39,9 @@ bool ExitWin::init()
 
 void ExitWin::initBgLayer()
 {
-    bgLayer = CCLayerColor::create(ccc4(0,0,0,0));
+    bgLayer = MaskLayer::create();
+	bgLayer->setColor(ccc3(0,0,0));
     bgLayer->setOpacity(0);
-    bgLayer->setTouchPriority(-128);
-    bgLayer->setTouchEnabled(false);
     CCActionInterval *fadeIn = CCFadeTo::create(0.5,100);
     bgLayer->runAction(fadeIn);
     addChild(bgLayer);

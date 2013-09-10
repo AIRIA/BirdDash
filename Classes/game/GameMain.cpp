@@ -3,6 +3,7 @@
 #include "base/BaseSprite.h"
 #include "game/scenes/SettingScene.h"
 #include "game/scenes/ClassicScene.h"
+#include "game/components/ExitWin.h"
 
 enum
 {
@@ -143,7 +144,6 @@ void GameMain::menuBgComplete()
 	CCMenu *gameMenu = CCMenu::create(classic,NULL);
 	gameMenu->setPosition(ccp(410,480));
 	addChild(gameMenu);
-
 }
 
 void GameMain::jumptoStageClassic( CCObject *pSender )
@@ -151,4 +151,9 @@ void GameMain::jumptoStageClassic( CCObject *pSender )
 	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("sounds/BGM/Play_bgm_long.mp3");
 	CCDirector::sharedDirector()->replaceScene(ClassicScene::create());
+}
+
+void GameMain::keyBackClicked()
+{
+	addChild(ExitWin::create());
 }

@@ -131,6 +131,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\Base\BaseScene.cpp" />
     <ClCompile Include="..\Classes\base\BaseSprite.cpp" />
     <ClCompile Include="..\Classes\base\BaseUserDefault.cpp" />
+    <ClCompile Include="..\Classes\base\MaskLayer.cpp" />
     <ClCompile Include="..\Classes\common\VisibleRect.cpp" />
     <ClCompile Include="..\Classes\game\components\ExitWin.cpp" />
     <ClCompile Include="..\Classes\game\components\PauseLayer.cpp" />
@@ -147,6 +148,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Base\BaseScene.h" />
     <ClInclude Include="..\Classes\base\BaseSprite.h" />
     <ClInclude Include="..\Classes\base\BaseUserDefault.h" />
+    <ClInclude Include="..\Classes\base\MaskLayer.h" />
     <ClInclude Include="..\Classes\common\Alias.h" />
     <ClInclude Include="..\Classes\common\CommonHeaders.h" />
     <ClInclude Include="..\Classes\common\VisibleRect.h" />

@@ -2,6 +2,7 @@
 #define _EXITWIN_H_
 
 #include "common/CommonHeaders.h"
+#include "base/MaskLayer.h"
 
 class ExitWin:public CCLayer
 {

@@ -75,22 +75,3 @@ void PauseLayer::quitHandler( CCObject *pSender )
 {
     CCDirector::sharedDirector()->replaceScene(GameMain::create());
 }
-
-void PauseLayer::onEnter()
-{
-    CCLayer::onEnter();
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this,callfuncO_selector(PauseLayer::showExit),SHOW_EXIT_WIN,NULL);
-	CCNotificationCenter::sharedNotificationCenter()->addObserver(this,callfuncO_selector(PauseLayer::showExit),HIDE_EXIT_WIN,NULL);
-}
-
-void PauseLayer::showExit( CCObject* pSender )
-{
-    gameMenu->setTouchEnabled(!gameMenu->isTouchEnabled());
-}
-
-void PauseLayer::onExit()
-{
-	CCLayer::onExit();
-	CCNotificationCenter::sharedNotificationCenter()->removeObserver(this,SHOW_EXIT_WIN);
-	CCNotificationCenter::sharedNotificationCenter()->removeObserver(this,HIDE_EXIT_WIN);
-}
