@@ -23,6 +23,8 @@ public:
 	void shake();
 	/* 飘落羽毛 */
 	void featherFly();
+	/*是否可以拖拽*/
+	bool isDragable();
 }; 
 
 #endif // !_BIRD_H_

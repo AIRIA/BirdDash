@@ -3,7 +3,7 @@
 
 bool Bird::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
 {
-    if(isContainPoint(pTouch))
+    if(isContainPoint(pTouch)&&isDragable())
     {
         return true;
     }
@@ -17,7 +17,7 @@ void Bird::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 
 void Bird::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 {
-	SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_droped.mp3");
+    SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_droped.mp3");
     shake();
 }
 
@@ -62,7 +62,7 @@ void Bird::reorderSelf()
 void Bird::shake()
 {
     CCActionInterval *scaleIn = CCScaleBy::create(0.1f,0.8f,1.2f);
-	CCCallFunc *shakeHandler = CCCallFunc::create(this,callfunc_selector(Bird::featherFly));
+    CCCallFunc *shakeHandler = CCCallFunc::create(this,callfunc_selector(Bird::featherFly));
     CCActionInterval *scaleOut = CCEaseElasticOut::create(CCScaleTo::create(0.6f,1));
     CCSequence *scaleSeq = CCSequence::create(scaleIn,shakeHandler,scaleOut,NULL);
     runAction(scaleSeq);
@@ -70,14 +70,35 @@ void Bird::shake()
 
 void Bird::onEnter()
 {
-	CCSprite::onEnter();
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,0,true);
+    CCSprite::onEnter();
+    CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,0,true);
 }
 
 void Bird::featherFly()
 {
-	CCString *featherName = CCString::createWithFormat("box0%d_feather@2x.png",type);
-	int featherNum = rand()%3+2;
-	BirdUtil::createRandomFeather(this,featherName->getCString(),featherNum);
+    CCString *featherName = CCString::createWithFormat("box0%d_feather@2x.png",type);
+    int featherNum = rand()%3+2;
+    BirdUtil::createRandomFeather(this,featherName->getCString(),featherNum);
+}
+
+bool Bird::isDragable()
+{
+    int rowUp = row==PP_ROW-1?row:row+1;
+    CCPoint up = ccp(rowUp,col);
+    int colRight = col==(PP_COL-1)?col:col+1;
+    CCPoint right = ccp(row,colRight);
+    int colLeft = col==0?col:col-1;
+    CCPoint left = ccp(row,colLeft);
+    CCPoint points[3] = {up,right,left};
+    for(int i=0; i<3; i++)
+    {
+        CCPoint p = points[i];
+        int row = p.x,col = p.y;
+        if(BirdUtil::birds[row][col]==NULL)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
