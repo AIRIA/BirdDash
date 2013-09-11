@@ -26,12 +26,11 @@ void ClassicScene::initBg()
     floor->setPosition(ccp(VisibleRect::center().x,44));
     bgWood->setPosition(ccp(VisibleRect::center().x,-400));
     CCActionInterval *moveAct = CCMoveTo::create(0.6f,ccp(VisibleRect::center().x,400));
-    bgWood->runAction(moveAct);
+    CCCallFunc *showBirdLayerHandler = CCCallFunc::create(this,callfunc_selector(ClassicScene::showBirdLayer));
+	bgWood->runAction(CCSequence::create(moveAct,showBirdLayerHandler,NULL));
     addChild(bgWood);
     birdLayer = BirdLayer::create();
-	birdLayer->setPosition(ccp(VisibleRect::center().x,-800));
-	CCActionInterval *birdLayerMove = CCMoveTo::create(0.6f,ccp(VisibleRect::center().x,40));
-	birdLayer->runAction(birdLayerMove);
+	birdLayer->setPosition(ccp(VisibleRect::center().x,-400));
 	addChild(birdLayer);
     addChild(floor);
     BaseSprite *pauseBtn = BaseSprite::createFromFile("images/stage_classic/stage_dimm2_RETINA.png","sounds/SFX/pausebuttonclick.mp3");
@@ -70,8 +69,12 @@ void ClassicScene::keyBackClicked()
         addChild(ExitWin::create());
         isShowExit = true;
     }
+}
 
-
+void ClassicScene::showBirdLayer()
+{
+	CCActionInterval *birdLayerMove = CCMoveTo::create(0.3f,ccp(VisibleRect::center().x,40));
+	birdLayer->runAction(birdLayerMove);
 }
 
 

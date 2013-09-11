@@ -13,6 +13,7 @@ private:
 protected:
 	virtual void loadAsset();
 public:
+	void showBirdLayer();
 	virtual bool init();
 	CREATE_FUNC(ClassicScene);
 	virtual void keyBackClicked();

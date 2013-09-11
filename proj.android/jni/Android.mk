@@ -18,10 +18,12 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/game/components/ExitWin.cpp \
                    ../../Classes/game/components/PauseLayer.cpp \
                    ../../Classes/game/components/ShakeBird.cpp \
+                   ../../Classes/game/components/BirdLayer.cpp \
                    ../../Classes/game/scenes/ClassicScene.cpp \
                    ../../Classes/game/scenes/SettingScene.cpp \
                    ../../Classes/game/scenes/SplashScene.cpp \
                    ../../Classes/game/utils/BirdUtil.cpp \
+                   ../../Classes/game/models/Bird.cpp \
                    ../../Classes/game/GameMain.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

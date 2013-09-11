@@ -6,6 +6,7 @@
 class BirdLayer:public CCLayer
 {
 public:
+	void initBirds();
     virtual bool init();
     CREATE_FUNC(BirdLayer);
 };

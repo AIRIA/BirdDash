@@ -2,27 +2,41 @@
 #include "game/models/Bird.h"
 #include "game/utils/BirdUtil.h"
 
+#define BIRD_WRAPPER_WIDTH 526
+#define BIRD_WRAPPER_HEIGHT 650
+
 bool BirdLayer::init()
 {
     if(!CCLayer::init())
     {
         return false;
     }
-	BirdUtil::initAnimate();
-    CCLayerColor *layerColor = CCLayerColor::create(ccc4(0,0,0,0));
-	layerColor->ignoreAnchorPointForPosition(false);
-	layerColor->setAnchorPoint(ccp(0.5,0));
-	CCSize layerSize = CCSizeMake(526,650);
-	setContentSize(layerSize);
-	layerColor->setContentSize(layerSize);
-	float block = 526/7;
-	for(int i=7;i>=0;i--){
-		Bird *bird = Bird::createBird(i);
-		bird->setPosition(ccp(block*0.5,72*i+40));
-		layerColor->addChild(bird);
-		bird->eyeclose();
-	}
-	
-    addChild(layerColor);
+    BirdUtil::initAnimate();
+    BirdUtil::initBirds();
+    initBirds();
     return true;
+}
+
+void BirdLayer::initBirds()
+{
+    CCSize layerSize = CCSizeMake(BIRD_WRAPPER_WIDTH,BIRD_WRAPPER_HEIGHT);
+    setContentSize(layerSize);
+    float boxWidth = BIRD_WRAPPER_WIDTH/PP_COL;
+    float boxHeight = 72;
+	CCSprite *sprFrame = SPRITE_FRAME(box01_burn@2x.png);
+    CCSpriteBatchNode *birdBatchNode = CCSpriteBatchNode::createWithTexture(sprFrame->getTexture());
+	birdBatchNode->setPosition(ccp(-BIRD_WRAPPER_WIDTH/2,0));
+	Bird **bird = BirdUtil::birds[0];
+    for(int row=0; row<3; row++)
+    {
+        for(int col=0; col<PP_COL; col++)
+        {
+            (*bird)->setPosition(ccp(boxWidth*(col+0.5),boxHeight*row+40));
+            (*bird)->eyeclose();
+			(*bird)->reorderSelf();
+            birdBatchNode->addChild(*bird);
+			bird++;
+        }
+    }
+    addChild(birdBatchNode);
 }

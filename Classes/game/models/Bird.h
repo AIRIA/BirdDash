@@ -17,6 +17,7 @@ public:
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
 	static Bird *createBird(int type);
 	void eyeclose();
+	void reorderSelf();
 }; 
 
 #endif // !_BIRD_H_

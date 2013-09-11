@@ -53,33 +53,36 @@ cocos2d::CCPoint BirdUtil::createRandomPoint( CCPoint pos,int range )
 
 void BirdUtil::initBirds()
 {
-	srand((unsigned)time(NULL));
+    srand((unsigned)time(NULL));
     for(int row=2; row>=0; row--)
     {
         for(int col=6; col>=0; col--)
         {
-			int type = rand()%5;
-			birds[row][col] = Bird::createBird(type);
+            int type = rand()%5;
+            Bird *bird = Bird::createBird(type);
+            bird->row = row;
+            bird->col = col;
+            birds[row][col] = bird;
         }
     }
 }
 
 void BirdUtil::initAnimate()
 {
-	CCAnimationCache *animationCache = CCAnimationCache::sharedAnimationCache();
-	CCSpriteFrameCache *frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
-	for(int i=0;i<8;i++)
-	{
-		CCArray *frames = CCArray::createWithCapacity(2);
-		CCString *s1 = CCString::createWithFormat("box0%d_normal_00@2x.png",i);
-		CCString *s2 = CCString::createWithFormat("box0%d_normal_02@2x.png",i);
-		CCSpriteFrame *frame1 = frameCache->spriteFrameByName(s1->getCString());
-		CCSpriteFrame *frame2 = frameCache->spriteFrameByName(s2->getCString());
-		frames->addObject(frame1);
-		frames->addObject(frame2);
-		frames->addObject(frame1->copy());
-		CCAnimation *animation = CCAnimation::createWithSpriteFrames(frames,0.2f);
-		CCString *aniName = CCString::createWithFormat("box0%d",i);
-		animationCache->addAnimation(animation,aniName->getCString());
-	}
+    CCAnimationCache *animationCache = CCAnimationCache::sharedAnimationCache();
+    CCSpriteFrameCache *frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
+    for(int i=0; i<8; i++)
+    {
+        CCArray *frames = CCArray::createWithCapacity(2);
+        CCString *s1 = CCString::createWithFormat("box0%d_normal_00@2x.png",i);
+        CCString *s2 = CCString::createWithFormat("box0%d_normal_02@2x.png",i);
+        CCSpriteFrame *frame1 = frameCache->spriteFrameByName(s1->getCString());
+        CCSpriteFrame *frame2 = frameCache->spriteFrameByName(s2->getCString());
+        frames->addObject(frame1);
+        frames->addObject(frame2);
+        frames->addObject(frame1->copy());
+        CCAnimation *animation = CCAnimation::createWithSpriteFrames(frames,0.2f);
+        CCString *aniName = CCString::createWithFormat("box0%d",i);
+        animationCache->addAnimation(animation,aniName->getCString());
+    }
 }
