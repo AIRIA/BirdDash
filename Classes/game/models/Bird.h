@@ -12,6 +12,8 @@ public:
 	int type;
 	int state;
 	bool dragable;
+	bool isFlying;
+	Bird():dragable(false),isFlying(false){};
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
@@ -25,6 +27,8 @@ public:
 	void featherFly();
 	/*是否可以拖拽*/
 	bool isDragable();
+	/* 在拖动的时候更新在数组中的位置 */
+	void updatePosition(CCTouch *pTouch);
 }; 
 
 #endif // !_BIRD_H_

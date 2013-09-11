@@ -96,6 +96,5 @@ void BirdUtil::initAnimate()
 
 void BirdUtil::removeFeather( CCNode *node )
 {
-    CCLog("rm end");
     node->removeFromParentAndCleanup(true);
 }

@@ -1,6 +1,9 @@
 ﻿#include "Bird.h"
 #include "game/utils/BirdUtil.h"
 
+#define BOX_WIDTH (BIRD_WRAPPER_WIDTH/PP_COL)
+#define BOX_HEIGHT 72
+
 bool Bird::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
 {
     if(isContainPoint(pTouch)&&isDragable())
@@ -12,13 +15,23 @@ bool Bird::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
 
 void Bird::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 {
-
+    updatePosition(pTouch);
 }
 
 void Bird::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_droped.mp3");
-    shake();
+    if(isFlying)
+    {
+        BirdUtil::birds[row][col] = this;
+        CCActionInterval *moveAct = CCMoveTo::create(0.1f,ccp(BOX_WIDTH*(col+0.5),BOX_HEIGHT*row+40));
+        CCCallFunc *moveEnd = CCCallFunc::create(this,callfunc_selector(Bird::shake));
+
+        runAction(CCSequence::create(moveAct,moveEnd,NULL));
+    }
+    else
+    {
+        shake();
+    }
 }
 
 Bird * Bird::createBird( int type )
@@ -61,6 +74,8 @@ void Bird::reorderSelf()
 
 void Bird::shake()
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_droped.mp3");
+    isFlying = false;
     CCActionInterval *scaleIn = CCScaleBy::create(0.1f,0.8f,1.2f);
     CCCallFunc *shakeHandler = CCCallFunc::create(this,callfunc_selector(Bird::featherFly));
     CCActionInterval *scaleOut = CCEaseElasticOut::create(CCScaleTo::create(0.6f,1));
@@ -100,5 +115,44 @@ bool Bird::isDragable()
         }
     }
     return false;
+}
+
+void Bird::updatePosition(CCTouch *pTouch)
+{
+
+    //转化到相对于父容器的坐标
+    CCPoint pos = getParent()->convertToNodeSpaceAR(pTouch->getLocation());
+    float minX = BOX_WIDTH/2;
+    float maxX = BIRD_WRAPPER_WIDTH-BOX_WIDTH/2;
+    float minY = 45;
+    float maxY = BIRD_WRAPPER_HEIGHT-60;
+    pos.x = pos.x<minX?minX:pos.x;
+    pos.x = pos.x>maxX?maxX:pos.x;
+    pos.y = pos.y<minY?minY:pos.y;
+    pos.y = pos.y>maxY?maxY:pos.y;
+
+    int currentCol = (pos.x-BOX_WIDTH*0.5)/BOX_WIDTH;
+    int currentRow = (pos.y-40)/BOX_HEIGHT;
+    float remainX = (int)(pos.x-BOX_WIDTH*0.5)%BOX_WIDTH;
+    float remainY = (int)(pos.y-40)%BOX_HEIGHT;
+    if(remainX>BOX_WIDTH/2)
+    {
+        currentCol++;
+    }
+    if(remainY>40)
+    {
+        currentRow++;
+    }
+
+    if(BirdUtil::birds[currentRow][currentCol]==NULL)
+    {
+        reorderSelf();
+        setPosition(ccp(pos.x,pos.y+30));
+        isFlying = true;
+        BirdUtil::birds[row][col] = NULL;
+        row = currentRow;
+        col = currentCol;
+        CCLog("row %d",row);
+    }
 }
 

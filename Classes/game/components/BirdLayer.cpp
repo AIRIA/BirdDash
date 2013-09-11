@@ -2,8 +2,7 @@
 #include "game/models/Bird.h"
 #include "game/utils/BirdUtil.h"
 
-#define BIRD_WRAPPER_WIDTH 526
-#define BIRD_WRAPPER_HEIGHT 650
+
 
 bool BirdLayer::init()
 {
