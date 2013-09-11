@@ -5,7 +5,11 @@
 
 class BirdUtil:public CCObject
 {
+private:
+	static BirdUtil *_instance;
 public:
+	void removeFeather(CCNode *node);
+	static BirdUtil *getInstance();
 	static void initAnimate();
 	static Bird *birds[PP_ROW][PP_COL];
 	static void initBirds();

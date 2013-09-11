@@ -28,10 +28,11 @@ void ShakeBird::startShake()
 		SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_remove(2).mp3");
 		CCString *featherName = CCString::createWithFormat("box0%d_feather@2x.png",featherId);
 		BirdUtil::createRandomFeather(this,featherName->getCString(),10);
+		removeFromParentAndCleanup(true);
         return ;
     }
-    int moveX = rand()%3+1;
-    int moveY = rand()%3+1;
+    int moveX = rand()%4+1;
+    int moveY = rand()%4+1;
     int xDirc = rand()%2;
     int yDirc = rand()%2;
     if(xDirc)

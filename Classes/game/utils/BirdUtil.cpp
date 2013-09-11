@@ -4,14 +4,21 @@
 
 CCSpriteBatchNode *BirdUtil::featherBatchNode = NULL;
 Bird *BirdUtil::birds[PP_ROW][PP_COL] = {};
+BirdUtil *BirdUtil::_instance = NULL;
+
+BirdUtil *BirdUtil::getInstance()
+{
+    if(!_instance)
+    {
+        _instance = new BirdUtil();
+    }
+    return _instance;
+}
 
 void BirdUtil::createRandomFeather( CCNode *bird,const char *feather,int featherNum )
 {
     CCSprite *featherSpr = CCSprite::createWithSpriteFrameName(feather);
     CCPoint birdPos = bird->getPosition();
-    featherBatchNode = CCSpriteBatchNode::createWithTexture(featherSpr->getTexture());
-    featherBatchNode->setPosition(CCPointZero);
-    srand((unsigned)time(NULL));
     for(int i=0; i<featherNum; i++)
     {
         CCSprite *birdFeather = CCSprite::createWithSpriteFrameName(feather);
@@ -25,16 +32,16 @@ void BirdUtil::createRandomFeather( CCNode *bird,const char *feather,int feather
         CCActionInterval *fadeOut = CCFadeOut::create(ACT_TIME);
         CCActionInterval *rl = CCRotateBy::create(0.2f,25);
         CCActionInterval *rr = CCRotateBy::create(0.2f,-25);
+        CCCallFuncN *rmFeather = CCCallFuncN::create(BirdUtil::getInstance(),callfuncN_selector(BirdUtil::removeFeather));
         CCSequence *rotateSeq = CCSequence::create(rotateTo,rl,rl->reverse(),rr,rr->reverse(),rl,NULL);
         CCSpawn *fly = CCSpawn::create(fadeOut,rotateSeq,moveDown,NULL);
-        CCSequence *seqAct = CCSequence::create(moveAct,fly,NULL);
+        CCSequence *seqAct = CCSequence::create(moveAct,fly,rmFeather,NULL);
         int rotate = rand()%360;
         birdFeather->setRotation(rotate);
         birdFeather->runAction(seqAct);
         featherBatchNode->addChild(birdFeather);
     }
-    bird->getParent()->getParent()->addChild(featherBatchNode);
-    bird->removeFromParentAndCleanup(true);
+
 }
 
 cocos2d::CCPoint BirdUtil::createRandomPoint( CCPoint pos,int range )
@@ -85,4 +92,10 @@ void BirdUtil::initAnimate()
         CCString *aniName = CCString::createWithFormat("box0%d",i);
         animationCache->addAnimation(animation,aniName->getCString());
     }
+}
+
+void BirdUtil::removeFeather( CCNode *node )
+{
+    CCLog("rm end");
+    node->removeFromParentAndCleanup(true);
 }

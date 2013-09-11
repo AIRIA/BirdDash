@@ -1,4 +1,5 @@
 ﻿#include "Bird.h"
+#include "game/utils/BirdUtil.h"
 
 bool Bird::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
 {
@@ -16,7 +17,8 @@ void Bird::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 
 void Bird::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 {
-
+	SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_droped.mp3");
+    shake();
 }
 
 Bird * Bird::createBird( int type )
@@ -55,5 +57,27 @@ void Bird::reorderSelf()
     {
         setZOrder(PP_ROW-row);
     }
+}
+
+void Bird::shake()
+{
+    CCActionInterval *scaleIn = CCScaleBy::create(0.1f,0.8f,1.2f);
+	CCCallFunc *shakeHandler = CCCallFunc::create(this,callfunc_selector(Bird::featherFly));
+    CCActionInterval *scaleOut = CCEaseElasticOut::create(CCScaleTo::create(0.6f,1));
+    CCSequence *scaleSeq = CCSequence::create(scaleIn,shakeHandler,scaleOut,NULL);
+    runAction(scaleSeq);
+}
+
+void Bird::onEnter()
+{
+	CCSprite::onEnter();
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,0,true);
+}
+
+void Bird::featherFly()
+{
+	CCString *featherName = CCString::createWithFormat("box0%d_feather@2x.png",type);
+	int featherNum = rand()%3+2;
+	BirdUtil::createRandomFeather(this,featherName->getCString(),featherNum);
 }
 

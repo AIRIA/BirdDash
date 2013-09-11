@@ -16,8 +16,13 @@ public:
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
 	static Bird *createBird(int type);
+	virtual void onEnter();
 	void eyeclose();
 	void reorderSelf();
+	/* 缩动身体后 随机掉落羽毛 */
+	void shake();
+	/* 飘落羽毛 */
+	void featherFly();
 }; 
 
 #endif // !_BIRD_H_

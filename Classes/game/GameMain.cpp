@@ -5,6 +5,7 @@
 #include "game/scenes/SettingScene.h"
 #include "game/scenes/ClassicScene.h"
 #include "game/components/ExitWin.h"
+#include "game/utils/BirdUtil.h"
 
 enum
 {
@@ -21,6 +22,7 @@ bool GameMain::init()
 		SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/BGM/Main_bgm.mp3",true);
         setMainbg();
         setSetting();
+		addChild(BirdUtil::featherBatchNode);
         res = true;
     }
     while (0);
@@ -109,7 +111,7 @@ void GameMain::addBirds()
     setBird("main_cha_purple@2x.png",ccp(230,200),ccp(0,0),4);
     setBird("main_cha_yellow@2x.png",ccp(550,80),ccp(0,0),7);
     addChild(birdBatchNode);
-	
+	BirdUtil::featherBatchNode =  CCSpriteBatchNode::createWithTexture(CCSprite::createWithSpriteFrameName("box01_burn@2x.png")->getTexture());
 }
 
 void GameMain::setBird( const char *birdName,CCPoint pos,CCPoint upDown,int featherId )

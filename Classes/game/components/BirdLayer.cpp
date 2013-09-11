@@ -25,7 +25,9 @@ void BirdLayer::initBirds()
     float boxHeight = 72;
 	CCSprite *sprFrame = SPRITE_FRAME(box01_burn@2x.png);
     CCSpriteBatchNode *birdBatchNode = CCSpriteBatchNode::createWithTexture(sprFrame->getTexture());
+	BirdUtil::featherBatchNode = CCSpriteBatchNode::createWithTexture(sprFrame->getTexture());
 	birdBatchNode->setPosition(ccp(-BIRD_WRAPPER_WIDTH/2,0));
+	BirdUtil::featherBatchNode->setPosition(birdBatchNode->getPosition());
 	Bird **bird = BirdUtil::birds[0];
     for(int row=0; row<3; row++)
     {
@@ -39,4 +41,5 @@ void BirdLayer::initBirds()
         }
     }
     addChild(birdBatchNode);
+	addChild(BirdUtil::featherBatchNode);
 }
