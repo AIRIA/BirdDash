@@ -147,12 +147,26 @@ void Bird::updatePosition(CCTouch *pTouch)
     if(BirdUtil::birds[currentRow][currentCol]==NULL)
     {
         reorderSelf();
-        setPosition(ccp(pos.x,pos.y+30));
+
         isFlying = true;
         BirdUtil::birds[row][col] = NULL;
         row = currentRow;
         col = currentCol;
-        CCLog("row %d",row);
+        //限制小鸟重叠
+        //如果左 左下 右 右下 和下方有小鸟的话 就限制位置
+        int leftCol = col-1;
+        int rightCol = col+1;
+        Bird *left = BirdUtil::birds[row][leftCol];
+        Bird *right = BirdUtil::birds[row][rightCol];
+        if(left&&pos.x<(left->getPositionX()+BOX_WIDTH))
+        {
+            pos.x = left->getPositionX()+BOX_WIDTH;
+        }
+        if(right&&pos.x>(right->getPositionX()-BOX_WIDTH))
+        {
+            pos.x = right->getPositionX()-BOX_WIDTH;
+        }
+        setPosition(ccp(pos.x,pos.y+30));
     }
 }
 
