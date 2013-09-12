@@ -123,8 +123,39 @@ void BirdUtil::updateColPosition( int col )
             bird->row -= num;
             BirdUtil::birds[bird->row][col]=bird;
             CCActionInterval *moveAct = CCMoveTo::create(num*BOX_DOWN_TIME,ccp(bird->getPositionX(),endPosY));
-            bird->runAction(moveAct);
-			bird->reorderSelf();
+            CCCallFunc *moveHandler = CCCallFunc::create(bird,callfunc_selector(Bird::shake));
+            bird->runAction(CCSequence::create(moveAct,moveHandler,NULL));
+            bird->reorderSelf();
+        }
+    }
+}
+
+void BirdUtil::checkAlltoDrop()
+{
+    CCSet *neighborSet = CCSet::create();
+    for(int i=0; i<PP_ROW; i++)
+    {
+        int prevType = -1;
+        int currentType = -1;
+        for (int j=0; j<PP_COL; j++)
+        {
+            Bird *bird = birds[i][j];
+            if(bird)
+            {
+                neighborSet->addObject(bird);
+                currentType = bird->type;
+                CCSet *res = bird->getNeighbor();
+                if(res->count()==0)
+                {
+
+                }
+                else
+                {
+                    //neighborSet->a
+                }
+
+            }
+
         }
     }
 }

@@ -6,18 +6,20 @@
 class BirdUtil:public CCObject
 {
 private:
-    static BirdUtil *_instance;
+	static BirdUtil *_instance;
 public:
-    /* 更新制定列中小鸟的位置 */
-    static void updateColPosition(int col);
-    void removeFeather(CCNode *node);
-    static BirdUtil *getInstance();
-    static void initAnimate();
-    static Bird *birds[PP_ROW][PP_COL];
-    static void initBirds();
-    static CCSpriteBatchNode *featherBatchNode;
-    static CCPoint createRandomPoint(CCPoint pos,int range);
-    static void createRandomFeather(CCNode *bird,const char *feather,int featherNum);
+	/* 更新制定列中小鸟的位置 */
+	static void updateColPosition(int col);
+	void removeFeather(CCNode *node);
+	static BirdUtil *getInstance();
+	static void initAnimate();
+	static Bird *birds[PP_ROW][PP_COL];
+	static void initBirds();
+	static CCSpriteBatchNode *featherBatchNode;
+	static CCPoint createRandomPoint(CCPoint pos,int range);
+	static void createRandomFeather(CCNode *bird,const char *feather,int featherNum);
+	/* 检测所有可以消除的 */
+	static void checkAlltoDrop();
 };
 
 #endif // !_BIRDUTIL_H_

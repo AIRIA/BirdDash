@@ -23,7 +23,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     pEGLView->setDesignResolutionSize(640,960,kResolutionExactFit);
     pDirector->setDisplayStats(true);
     pDirector->setAnimationInterval(1.0 / 60);
-
+	SimpleAudioEngine::sharedEngine()->setEffectsVolume(1.0f);
+	SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1.0f);
 #if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
     pDirector->runWithScene(SplashScene::create());
 #endif

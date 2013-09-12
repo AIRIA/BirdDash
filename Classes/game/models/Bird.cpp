@@ -27,12 +27,12 @@ void Bird::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
                 num++;
             }
         }
-		row-=num;
+        row-=num;
         CCActionInterval *moveAct = CCMoveTo::create(BOX_DOWN_TIME*num+0.05f,ccp(BOX_WIDTH*(col+0.5),BOX_HEIGHT*row+40));
         CCCallFunc *moveEnd = CCCallFunc::create(this,callfunc_selector(Bird::shake));
         runAction(CCSequence::create(moveAct,moveEnd,NULL));
-		reorderSelf();
-		BirdUtil::birds[row][col] = this;
+        reorderSelf();
+        BirdUtil::birds[row][col] = this;
     }
     else
     {
@@ -174,5 +174,27 @@ void Bird::updatePosition(CCTouch *pTouch)
         }
         setPosition(ccp(pos.x,pos.y+30));
     }
+}
+
+CCSet * Bird::getNeighbor()
+{
+    neighborSet = CCSet::create();
+    int leftCol = col==0?col:col-1;
+    int rightCol = col==(PP_COL-1)?col:col+1;
+    int downRow = row==0?row:row-1;
+    int upRow = row==(PP_ROW-1)?row:row+1;
+    Bird *left = BirdUtil::birds[row][leftCol];
+    Bird *right = BirdUtil::birds[row][rightCol];
+    Bird *up = BirdUtil::birds[upRow][col];
+    Bird* down = BirdUtil::birds[downRow][col];
+    if(leftCol!=col&&left&&type==left->type)
+        neighborSet->addObject(left);
+    if(rightCol!=col&&right&&type==right->type)
+        neighborSet->addObject(right);
+    if(downRow!=row&&down&&type==down->type)
+        neighborSet->addObject(down);
+    if(upRow!=row&&up&&type==up->type)
+        neighborSet->addObject(up);
+    return neighborSet;
 }
 

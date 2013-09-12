@@ -6,6 +6,8 @@
 
 class Bird:public BaseSprite
 {
+private:
+	CCSet *neighborSet;
 public:
 	int row;
 	int col;
@@ -29,6 +31,8 @@ public:
 	bool isDragable();
 	/* 在拖动的时候更新在数组中的位置 */
 	void updatePosition(CCTouch *pTouch);
+	/* 获取右边和上边的 */
+	CCSet *getNeighbor();
 }; 
 
 #endif // !_BIRD_H_
