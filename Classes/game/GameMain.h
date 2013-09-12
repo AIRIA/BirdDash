@@ -7,10 +7,11 @@
 class GameMain:public BaseScene
 {
 private:
-	void menuBgComplete();
 	void jumptoSetting(CCObject *pSender);
 	void jumptoStageClassic(CCObject *pSender);
-	void setBird(const char *bird,CCPoint pos,CCPoint upDown,int featherId);
+	void setBird(const char *bird,CCPoint pos,CCPoint upDown,int featherId,float sec);
+	void moveTitle(CCNode *node);
+	void playShowBirdSound(CCNode *node,void *param);
 	CCSpriteBatchNode *birdBatchNode;
 protected:
 	virtual void loadAsset();

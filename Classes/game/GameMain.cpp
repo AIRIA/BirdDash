@@ -19,10 +19,10 @@ bool GameMain::init()
     do
     {
         CC_BREAK_IF(!BaseScene::init());
-		SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/BGM/Main_bgm.mp3",true);
+        SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/BGM/Main_bgm.mp3",true);
         setMainbg();
         setSetting();
-		addChild(BirdUtil::featherBatchNode);
+        addChild(BirdUtil::featherBatchNode);
         res = true;
     }
     while (0);
@@ -70,19 +70,30 @@ void GameMain::setMainbg()
     addChild(grassUp);
     menuBg->setAnchorPoint(ccp(1,0));
     menuBg->setRotation(-5);
-    menuBg->setPosition(ccp(VisibleRect::right().x+80,-594));
+   
     CCActionInterval *moveTo = CCMoveTo::create(1,ccp(VisibleRect::right().x+10,94));
-    CCCallFunc *bgHandler = CCCallFunc::create(this,callfunc_selector(GameMain::menuBgComplete));
     addBirds();
-    menuBg->runAction(CCSequence::create(moveTo,bgHandler,NULL));
-    addChild(menuBg);
+    CCMenuItemSprite *classic = BaseMenuSprite::createMenuSprite(SPRITE_FRAME(main_menu_classic_china@2x.png),SPRITE_FRAME(main_menu_classic_push_china@2x.png),NULL,this,menu_selector(GameMain::jumptoStageClassic),"sounds/SFX/buttonclick.mp3");
+    classic->setRotation(-5);
+    CCMenu *gameMenu = CCMenu::create(classic,NULL);
+    gameMenu->setPosition(ccp(-240,380));
+    CCNode *menuNode = CCNode::create();
+	menuNode->setPosition(ccp(VisibleRect::right().x+80,-594));
+	menuNode->runAction(CCSequence::create(moveTo,NULL));
+	
+    menuNode->addChild(menuBg);
+	addChild(menuNode);
+    menuNode->addChild(gameMenu);
     addChild(grassDown);
     //title
+    CCActionInterval *titleMove = CCMoveTo::create(0.5f,ccp(VisibleRect::top().x,VisibleRect::top().y-170));
     CCSprite *title = SPRITE_FRAME(main_title@2x.png);
-    title->setPosition(ccp(VisibleRect::top().x,VisibleRect::top().y-170));
+    title->setPosition(ccp(VisibleRect::top().x,VisibleRect::top().y+170));
     addChild(title);
-    CCActionInterval *moveUp = CCMoveBy::create(1,ccp(0,10));
-    title->runAction(CCRepeatForever::create(CCSequence::create(moveUp,moveUp->reverse(),NULL)));
+    CCCallFuncN *moveTitleHandler = CCCallFuncN::create(this,callfuncN_selector(GameMain::moveTitle));
+    CCSequence *titleSeq = CCSequence::create(titleMove,moveTitleHandler,NULL);
+
+    title->runAction(titleSeq);
 }
 
 void GameMain::loadAsset()
@@ -92,9 +103,9 @@ void GameMain::loadAsset()
     frameCache->addSpriteFramesWithFile("images/main_menu/mainmenu_a_RETINA.plist");
     frameCache->addSpriteFramesWithFile("images/main_menu/mainmenu_a_CN_RETINA.plist");
     frameCache->addSpriteFramesWithFile("images/main_menu/mainmenu_b_CN_RETINA.plist");
-	frameCache->addSpriteFramesWithFile("images/character/Character_RETINA.plist");
+    frameCache->addSpriteFramesWithFile("images/character/Character_RETINA.plist");
 
-	SimpleAudioEngine::sharedEngine()->preloadEffect("sounds/SFX/Bird_remove(2).mp3");
+    SimpleAudioEngine::sharedEngine()->preloadEffect("sounds/SFX/Bird_remove(2).mp3");
 
 }
 
@@ -102,26 +113,31 @@ void GameMain::addBirds()
 {
 
     birdBatchNode = CCSpriteBatchNode::createWithTexture(SPRITE_FRAME(main_cha_blue@2x.png)->getTexture());
-    setBird("main_cha_white@2x.png",ccp(170,620),ccp(0,5),6);
-    setBird("main_cha_blue@2x.png",ccp(150,500),ccp(0,3),0);
-    setBird("main_cha_pink@2x.png",ccp(190,400),ccp(0,2),3);
-    setBird("main_cha_orange@2x.png",ccp(100,350),ccp(0,3),2);
-    setBird("main_cha_green@2x.png",ccp(190,310),ccp(0,2),1);
-    setBird("main_cha_red@2x.png",ccp(120,220),ccp(0,3),5);
-    setBird("main_cha_purple@2x.png",ccp(230,200),ccp(0,0),4);
-    setBird("main_cha_yellow@2x.png",ccp(550,80),ccp(0,0),7);
+    setBird("main_cha_white@2x.png",ccp(170,620),ccp(0,5),6,0.7f);
+    setBird("main_cha_blue@2x.png",ccp(150,500),ccp(0,3),0,0.4f);
+    setBird("main_cha_pink@2x.png",ccp(190,400),ccp(0,2),3,0.5f);
+    setBird("main_cha_orange@2x.png",ccp(100,350),ccp(0,3),2,0.6f);
+    setBird("main_cha_green@2x.png",ccp(190,310),ccp(0,2),1,0.8f);
+    setBird("main_cha_red@2x.png",ccp(120,220),ccp(0,3),5,1);
+    setBird("main_cha_purple@2x.png",ccp(230,200),ccp(0,0),4,1);
+    setBird("main_cha_yellow@2x.png",ccp(550,80),ccp(0,0),7,1);
     addChild(birdBatchNode);
-	BirdUtil::featherBatchNode =  CCSpriteBatchNode::createWithTexture(CCSprite::createWithSpriteFrameName("box01_burn@2x.png")->getTexture());
+    BirdUtil::featherBatchNode =  CCSpriteBatchNode::createWithTexture(CCSprite::createWithSpriteFrameName("box01_burn@2x.png")->getTexture());
 }
 
-void GameMain::setBird( const char *birdName,CCPoint pos,CCPoint upDown,int featherId )
+void GameMain::setBird( const char *birdName,CCPoint pos,CCPoint upDown,int featherId,float sec )
 {
     ShakeBird *bird = ShakeBird::createShakeBird(birdName);
-	bird->featherId = featherId;
+    bird->featherId = featherId;
     bird->setPosition(pos);
-    CCActionInterval *moveUp = CCMoveBy::create(1,upDown);
-    CCActionInterval *moveDown= CCMoveBy::create(1,ccp(0,-upDown.y));
-    bird->runAction(CCRepeatForever::create(CCSequence::create(moveUp,moveUp->reverse(),moveDown,moveDown->reverse(),NULL)));
+    CCActionInterval *moveUp = CCMoveBy::create(sec,upDown);
+    CCActionInterval *moveDown= CCMoveBy::create(sec,ccp(0,-upDown.y));
+    bird->setOpacity(0);
+    CCDelayTime *dt = CCDelayTime::create(sec);
+    CCRepeatForever *repeater = CCRepeatForever::create(CCSequence::create(moveUp,moveUp->reverse(),moveDown,moveDown->reverse(),NULL));
+    repeater->retain();
+    CCCallFuncND *dtHandler = CCCallFuncND::create(this,callfuncND_selector(GameMain::playShowBirdSound),repeater);
+    bird->runAction(CCSequence::create(dt,dtHandler,NULL));
     birdBatchNode->addChild(bird);
 }
 
@@ -140,23 +156,29 @@ void GameMain::jumptoSetting( CCObject *pSender )
     CCDirector::sharedDirector()->replaceScene(SettingScene::create());
 }
 
-void GameMain::menuBgComplete()
-{
-	CCMenuItemSprite *classic = BaseMenuSprite::createMenuSprite(SPRITE_FRAME(main_menu_classic_china@2x.png),SPRITE_FRAME(main_menu_classic_push_china@2x.png),NULL,this,menu_selector(GameMain::jumptoStageClassic),"sounds/SFX/buttonclick.mp3");
-	classic->setRotation(-5);
-	CCMenu *gameMenu = CCMenu::create(classic,NULL);
-	gameMenu->setPosition(ccp(410,480));
-	addChild(gameMenu);
-}
-
 void GameMain::jumptoStageClassic( CCObject *pSender )
 {
-	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
-	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("sounds/BGM/Play_bgm_long.mp3");
-	CCDirector::sharedDirector()->replaceScene(ClassicScene::create());
+    SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+    SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("sounds/BGM/Play_bgm_long.mp3");
+    CCDirector::sharedDirector()->replaceScene(ClassicScene::create());
 }
 
 void GameMain::keyBackClicked()
 {
-	addChild(ExitWin::create());
+    addChild(ExitWin::create());
+}
+
+void GameMain::moveTitle( CCNode *node )
+{
+    CCActionInterval *moveUp = CCMoveBy::create(1,ccp(0,10));
+    node->runAction(CCRepeatForever::create(CCSequence::create(moveUp,moveUp->reverse(),NULL)));
+}
+
+void GameMain::playShowBirdSound(CCNode *node,void *param)
+{
+    SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_droped.mp3");
+    CCActionInterval *act = (CCRepeatForever*)param;
+    ShakeBird *sb = (ShakeBird*)node;
+    sb->setOpacity(255);
+    node->runAction(act);
 }
