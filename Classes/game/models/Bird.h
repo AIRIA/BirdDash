@@ -29,6 +29,8 @@ public:
 	bool isDragable();
 	/* 在拖动的时候更新在数组中的位置 */
 	void updatePosition(CCTouch *pTouch);
+
+	virtual void update(float dt);
 }; 
 
 #endif // !_BIRD_H_

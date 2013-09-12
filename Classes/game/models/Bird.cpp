@@ -86,6 +86,7 @@ void Bird::shake()
 void Bird::onEnter()
 {
     CCSprite::onEnter();
+    scheduleUpdate();
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,0,true);
 }
 
@@ -154,19 +155,24 @@ void Bird::updatePosition(CCTouch *pTouch)
         col = currentCol;
         //限制小鸟重叠
         //如果左 左下 右 右下 和下方有小鸟的话 就限制位置
-        int leftCol = col-1;
-        int rightCol = col+1;
+        int leftCol = col==0?col:col-1;
+        int rightCol = col==(PP_COL-1)?col:col+1;
         Bird *left = BirdUtil::birds[row][leftCol];
         Bird *right = BirdUtil::birds[row][rightCol];
-        if(left&&pos.x<(left->getPositionX()+BOX_WIDTH))
+        if(leftCol!=col&&left&&pos.x<(left->getPositionX()+BOX_WIDTH))
         {
             pos.x = left->getPositionX()+BOX_WIDTH;
         }
-        if(right&&pos.x>(right->getPositionX()-BOX_WIDTH))
+        if(rightCol!=col&&right&&pos.x>(right->getPositionX()-BOX_WIDTH))
         {
             pos.x = right->getPositionX()-BOX_WIDTH;
         }
         setPosition(ccp(pos.x,pos.y+30));
     }
+}
+
+void Bird::update( float dt )
+{
+
 }
 
