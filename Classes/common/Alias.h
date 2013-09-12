@@ -9,6 +9,10 @@
 #define PP_COL 7
 #define BIRD_WRAPPER_WIDTH 526
 #define BIRD_WRAPPER_HEIGHT 650
+#define BOX_WIDTH (BIRD_WRAPPER_WIDTH/PP_COL)
+#define BOX_HEIGHT 72
+#define BOX_DOWN_TIME 0.1f
+
 
 #define SPRITE(url) CCSprite::create(#url)
 #define SPRITE_FRAME(URL) CCSprite::createWithSpriteFrameName(#URL)

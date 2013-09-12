@@ -1,9 +1,6 @@
 ﻿#include "Bird.h"
 #include "game/utils/BirdUtil.h"
 
-#define BOX_WIDTH (BIRD_WRAPPER_WIDTH/PP_COL)
-#define BOX_HEIGHT 72
-
 bool Bird::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
 {
     if(isContainPoint(pTouch)&&isDragable())
@@ -22,11 +19,20 @@ void Bird::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 {
     if(isFlying)
     {
-        BirdUtil::birds[row][col] = this;
-        CCActionInterval *moveAct = CCMoveTo::create(0.1f,ccp(BOX_WIDTH*(col+0.5),BOX_HEIGHT*row+40));
+        int num=0;
+        for(int i=0; i<row; i++)
+        {
+            if(BirdUtil::birds[i][col]==NULL)
+            {
+                num++;
+            }
+        }
+		row-=num;
+        CCActionInterval *moveAct = CCMoveTo::create(BOX_DOWN_TIME*num+0.05f,ccp(BOX_WIDTH*(col+0.5),BOX_HEIGHT*row+40));
         CCCallFunc *moveEnd = CCCallFunc::create(this,callfunc_selector(Bird::shake));
-
         runAction(CCSequence::create(moveAct,moveEnd,NULL));
+		reorderSelf();
+		BirdUtil::birds[row][col] = this;
     }
     else
     {
@@ -86,7 +92,6 @@ void Bird::shake()
 void Bird::onEnter()
 {
     CCSprite::onEnter();
-    scheduleUpdate();
     CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,0,true);
 }
 
@@ -144,15 +149,15 @@ void Bird::updatePosition(CCTouch *pTouch)
     {
         currentRow++;
     }
-
     if(BirdUtil::birds[currentRow][currentCol]==NULL)
     {
         reorderSelf();
-
         isFlying = true;
         BirdUtil::birds[row][col] = NULL;
+        int temp = col;
         row = currentRow;
         col = currentCol;
+        BirdUtil::updateColPosition(temp);
         //限制小鸟重叠
         //如果左 左下 右 右下 和下方有小鸟的话 就限制位置
         int leftCol = col==0?col:col-1;
@@ -169,10 +174,5 @@ void Bird::updatePosition(CCTouch *pTouch)
         }
         setPosition(ccp(pos.x,pos.y+30));
     }
-}
-
-void Bird::update( float dt )
-{
-
 }
 

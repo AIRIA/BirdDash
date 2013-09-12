@@ -98,3 +98,33 @@ void BirdUtil::removeFeather( CCNode *node )
 {
     node->removeFromParentAndCleanup(true);
 }
+
+void BirdUtil::updateColPosition( int col )
+{
+    for(int i=1; i<PP_ROW; i++)
+    {
+        Bird *bird = BirdUtil::birds[i][col];
+        if(!bird)
+        {
+            continue;
+        }
+        int num=0;
+        for(int j=0; j<i; j++)
+        {
+            if(BirdUtil::birds[j][col]==NULL)
+            {
+                num++;
+            }
+        }
+        if(num)
+        {
+            BirdUtil::birds[i][col]=NULL;
+            int endPosY = BOX_HEIGHT*(i-num)+40;
+            bird->row -= num;
+            BirdUtil::birds[bird->row][col]=bird;
+            CCActionInterval *moveAct = CCMoveTo::create(num*BOX_DOWN_TIME,ccp(bird->getPositionX(),endPosY));
+            bird->runAction(moveAct);
+			bird->reorderSelf();
+        }
+    }
+}
