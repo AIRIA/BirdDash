@@ -17,6 +17,7 @@ void Bird::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 
 void Bird::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 {
+
     if(isFlying)
     {
         int num=0;
@@ -38,6 +39,7 @@ void Bird::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
     {
         shake();
     }
+    BirdUtil::checkAlltoDrop();
 }
 
 Bird * Bird::createBird( int type )
@@ -176,9 +178,17 @@ void Bird::updatePosition(CCTouch *pTouch)
     }
 }
 
-CCSet * Bird::getNeighbor()
+void * Bird::getNeighbors(CCArray *neighbors)
 {
-    neighborSet = CCSet::create();
+    if(neighbors->containsObject(this))
+    {
+        return NULL;
+    }
+    else
+    {
+        neighbors->addObject(this);
+        isChecked = true;
+    }
     int leftCol = col==0?col:col-1;
     int rightCol = col==(PP_COL-1)?col:col+1;
     int downRow = row==0?row:row-1;
@@ -188,13 +198,21 @@ CCSet * Bird::getNeighbor()
     Bird *up = BirdUtil::birds[upRow][col];
     Bird* down = BirdUtil::birds[downRow][col];
     if(leftCol!=col&&left&&type==left->type)
-        neighborSet->addObject(left);
+    {
+        left->getNeighbors(neighbors);
+    }
     if(rightCol!=col&&right&&type==right->type)
-        neighborSet->addObject(right);
+    {
+        right->getNeighbors(neighbors);
+    }
     if(downRow!=row&&down&&type==down->type)
-        neighborSet->addObject(down);
+    {
+        down->getNeighbors(neighbors);
+    }
     if(upRow!=row&&up&&type==up->type)
-        neighborSet->addObject(up);
-    return neighborSet;
+    {
+        up->getNeighbors(neighbors);
+    }
+    return NULL;
 }
 

@@ -2,6 +2,7 @@
 #include "game/GameMain.h"
 #include "base/BaseMenuSprite.h"
 #include "base/MaskLayer.h"
+#include "game/utils/BirdUtil.h"
 
 #define PAUSE_SLIDE_TIME 0.3f
 
@@ -15,8 +16,8 @@ bool PauseLayer::init()
     do
     {
         CC_BREAK_IF(!CCLayer::init());
-		SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-		setTouchEnabled(true);
+        SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+        setTouchEnabled(true);
         initBgLayer();
         initMenu();
         return true;
@@ -61,7 +62,7 @@ void PauseLayer::initMenu()
 
 void PauseLayer::resumeHandler( CCObject *pSender )
 {
-	SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
+    SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
     CCActionInterval *moveDown = CCMoveTo::create(PAUSE_SLIDE_TIME,ccp(VisibleRect::center().x,-232));
     CCActionInterval *fadeOut = CCFadeTo::create(PAUSE_SLIDE_TIME,0);
     bgLayer->runAction(fadeOut);
@@ -78,9 +79,16 @@ void PauseLayer::destroy()
 void PauseLayer::quitHandler( CCObject *pSender )
 {
     CCDirector::sharedDirector()->replaceScene(GameMain::create());
+    for(int row=0; row<PP_ROW; row++)
+    {
+        for(int col=0; col<PP_COL; col++)
+        {
+            BirdUtil::birds[row][col] = NULL;
+        }
+    }
 }
 
 bool ccTouchBegan(CCTouch *pTouch,CCEvent *pEvent)
 {
-	return true;
+    return true;
 }

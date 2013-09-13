@@ -20,6 +20,8 @@ public:
 	static void createRandomFeather(CCNode *bird,const char *feather,int featherNum);
 	/* 检测所有可以消除的 */
 	static void checkAlltoDrop();
+	/* 设置所有的都到没有检测的状态 */
+	static void resetAlltoUncheck();
 };
 
 #endif // !_BIRDUTIL_H_

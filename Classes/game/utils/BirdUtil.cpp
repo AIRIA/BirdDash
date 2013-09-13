@@ -61,7 +61,7 @@ cocos2d::CCPoint BirdUtil::createRandomPoint( CCPoint pos,int range )
 void BirdUtil::initBirds()
 {
     srand((unsigned)time(NULL));
-    for(int row=2; row>=0; row--)
+    for(int row=3; row>=0; row--)
     {
         for(int col=6; col>=0; col--)
         {
@@ -132,30 +132,58 @@ void BirdUtil::updateColPosition( int col )
 
 void BirdUtil::checkAlltoDrop()
 {
-    CCSet *neighborSet = CCSet::create();
+    CCArray *neighbors = CCArray::create();
+    neighbors->retain();
+    int times=0;
     for(int i=0; i<PP_ROW; i++)
     {
-        int prevType = -1;
-        int currentType = -1;
         for (int j=0; j<PP_COL; j++)
         {
-            Bird *bird = birds[i][j];
-            if(bird)
+            Bird *bird = BirdUtil::birds[i][j];
+            if(bird&&bird->isChecked==false)
             {
-                neighborSet->addObject(bird);
-                currentType = bird->type;
-                CCSet *res = bird->getNeighbor();
-                if(res->count()==0)
+                times++;
+                bird->getNeighbors(neighbors);
+                CCObject *obj = NULL;
+                Bird *neighbor;
+                if(neighbors->count()>=3)
                 {
 
+                    CCARRAY_FOREACH(neighbors,obj)
+                    {
+                        neighbor = (Bird*)obj;
+                        neighbor->setOpacity(100);
+                        neighbor->isChecked = true;
+                    }
                 }
                 else
                 {
-                    //neighborSet->a
+                    CCARRAY_FOREACH(neighbors,obj)
+                    {
+                        neighbor = (Bird*)obj;
+                        neighbor->setOpacity(255);
+                        neighbor->isChecked = false;
+                    }
                 }
-
+                neighbors->removeAllObjects();
             }
+        }
+    }
+    CCLog("run times:%d",times);
+    resetAlltoUncheck();
+}
 
+void BirdUtil::resetAlltoUncheck()
+{
+    for(int i=0; i<PP_ROW; i++)
+    {
+        for (int j=0; j<PP_COL; j++)
+        {
+            Bird *bird = BirdUtil::birds[i][j];
+            if(bird&&bird->isChecked==true)
+            {
+                bird->isChecked =false;
+            }
         }
     }
 }

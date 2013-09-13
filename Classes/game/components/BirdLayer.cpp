@@ -28,7 +28,7 @@ void BirdLayer::initBirds()
 	birdBatchNode->setPosition(ccp(-BIRD_WRAPPER_WIDTH/2,0));
 	BirdUtil::featherBatchNode->setPosition(birdBatchNode->getPosition());
 	Bird **bird = BirdUtil::birds[0];
-    for(int row=0; row<3; row++)
+    for(int row=0; row<4; row++)
     {
         for(int col=0; col<PP_COL; col++)
         {
