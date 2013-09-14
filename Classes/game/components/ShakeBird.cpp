@@ -29,6 +29,7 @@ void ShakeBird::startShake()
 		CCString *featherName = CCString::createWithFormat("box0%d_feather@2x.png",featherId);
 		BirdUtil::createRandomFeather(this,featherName->getCString(),10);
 		removeFromParentAndCleanup(true);
+		shakeTimes = 0;
         return ;
     }
     int moveX = rand()%4+1;

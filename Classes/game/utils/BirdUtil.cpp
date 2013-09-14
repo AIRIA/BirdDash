@@ -5,6 +5,7 @@
 CCSpriteBatchNode *BirdUtil::featherBatchNode = NULL;
 Bird *BirdUtil::birds[PP_ROW][PP_COL] = {};
 BirdUtil *BirdUtil::_instance = NULL;
+std::set<int> BirdUtil::cols;
 
 BirdUtil *BirdUtil::getInstance()
 {
@@ -101,39 +102,32 @@ void BirdUtil::removeFeather( CCNode *node )
 
 void BirdUtil::updateColPosition( int col )
 {
-    for(int i=1; i<PP_ROW; i++)
+    CCLog("updateColPosition");
+    int currentRow = 0;
+    for(int i=0; i<PP_ROW; i++)
     {
         Bird *bird = BirdUtil::birds[i][col];
-        if(!bird)
+        if(bird&&bird->dragable)
         {
-            continue;
-        }
-        int num=0;
-        for(int j=0; j<i; j++)
-        {
-            if(BirdUtil::birds[j][col]==NULL)
+            if(bird->row!=currentRow)
             {
-                num++;
+                BirdUtil::birds[bird->row][col]=NULL;
+                BirdUtil::birds[currentRow][col]=bird;
+                int range = bird->row - currentRow;
+                bird->row = currentRow;
+                CCActionInterval *moveAct = CCMoveTo::create(range*BOX_DOWN_TIME,ccp(bird->getPositionX(),currentRow*BOX_HEIGHT+40));
+                CCCallFunc *moveHandler = CCCallFunc::create(bird,callfunc_selector(Bird::shake));
+                bird->runAction(CCSequence::create(moveAct,moveHandler,NULL));
+                bird->reorderSelf();
             }
-        }
-        if(num)
-        {
-            BirdUtil::birds[i][col]=NULL;
-            int endPosY = BOX_HEIGHT*(i-num)+40;
-            bird->row -= num;
-            BirdUtil::birds[bird->row][col]=bird;
-            CCActionInterval *moveAct = CCMoveTo::create(num*BOX_DOWN_TIME,ccp(bird->getPositionX(),endPosY));
-            CCCallFunc *moveHandler = CCCallFunc::create(bird,callfunc_selector(Bird::shake));
-            bird->runAction(CCSequence::create(moveAct,moveHandler,NULL));
-            bird->reorderSelf();
+            currentRow++;
         }
     }
 }
 
 void BirdUtil::checkAlltoDrop()
 {
-    CCArray *neighbors = CCArray::create();
-    neighbors->retain();
+
     int times=0;
     for(int i=0; i<PP_ROW; i++)
     {
@@ -142,35 +136,43 @@ void BirdUtil::checkAlltoDrop()
             Bird *bird = BirdUtil::birds[i][j];
             if(bird&&bird->isChecked==false)
             {
+                DashInfo *dashInfo = new DashInfo();
                 times++;
-                bird->getNeighbors(neighbors);
+                bird->getNeighbors(dashInfo->neighbors);
                 CCObject *obj = NULL;
                 Bird *neighbor;
-                if(neighbors->count()>=3)
+                if(dashInfo->neighbors->count()>=3)
                 {
 
-                    CCARRAY_FOREACH(neighbors,obj)
+                    SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_vibration.mp3");
+
+                    CCARRAY_FOREACH(dashInfo->neighbors,obj)
                     {
                         neighbor = (Bird*)obj;
-                        neighbor->setOpacity(100);
+                        (dashInfo->cols).insert(neighbor->col);
+                        neighbor->dragable = false;
+                        neighbor->shakeBody(NULL,dashInfo);
                         neighbor->isChecked = true;
+                        //BirdUtil::birds[neighbor->row][neighbor->col] = NULL;
                     }
+
                 }
                 else
                 {
-                    CCARRAY_FOREACH(neighbors,obj)
+                    CCARRAY_FOREACH(dashInfo->neighbors,obj)
                     {
                         neighbor = (Bird*)obj;
-                        neighbor->setOpacity(255);
                         neighbor->isChecked = false;
                     }
+					dashInfo->neighbors->removeAllObjects();
+					delete dashInfo;
                 }
-                neighbors->removeAllObjects();
+
             }
         }
     }
+
     CCLog("run times:%d",times);
-    resetAlltoUncheck();
 }
 
 void BirdUtil::resetAlltoUncheck()

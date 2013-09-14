@@ -23,12 +23,13 @@ bool AppDelegate::applicationDidFinishLaunching()
     pEGLView->setDesignResolutionSize(640,960,kResolutionExactFit);
     pDirector->setDisplayStats(true);
     pDirector->setAnimationInterval(1.0 / 60);
-	SimpleAudioEngine::sharedEngine()->setEffectsVolume(1.0f);
-	SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1.0f);
+	
 #if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
     pDirector->runWithScene(SplashScene::create());
 #endif
 #if(CC_TARGET_PLATFORM!=CC_PLATFORM_ANDROID)
+	SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.0f);
+	SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.0f);
 	//pDirector->runWithScene(SplashScene::create());
     SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("sounds/BGM/Main_bgm.mp3");
     pDirector->runWithScene(GameMain::create());

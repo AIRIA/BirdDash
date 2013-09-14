@@ -6,6 +6,8 @@
 
 class Bird:public BaseSprite
 {
+private:
+	int shakeTimes;
 public:
     /* 是不是已经遍历过了 */
     bool isChecked;
@@ -15,7 +17,7 @@ public:
     int state;
     bool dragable;
     bool isFlying;
-    Bird():isChecked(false),dragable(false),isFlying(false){};
+    Bird():shakeTimes(0),isChecked(false),dragable(true),isFlying(false) {};
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
@@ -32,7 +34,9 @@ public:
     /* 在拖动的时候更新在数组中的位置 */
     void updatePosition(CCTouch *pTouch);
     /* 获取右边和上边的 */
-    void *getNeighbors(CCArray *neighbor);
+    void getNeighbors(CCArray *neighbor);
+    /* 晃动身体 */
+    void shakeBody(CCNode *node,void *dashInfo);
 };
 
 #endif // !_BIRD_H_

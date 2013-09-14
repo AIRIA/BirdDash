@@ -3,7 +3,11 @@
 
 bool Bird::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
 {
-    if(isContainPoint(pTouch)&&isDragable())
+    if(isContainPoint(pTouch))
+    {
+        CCLog("select bird positionY:%f,at row %d",getPositionY(),row);
+    }
+    if(isContainPoint(pTouch)&&isDragable()&&dragable)
     {
         return true;
     }
@@ -100,7 +104,7 @@ void Bird::onEnter()
 void Bird::featherFly()
 {
     CCString *featherName = CCString::createWithFormat("box0%d_feather@2x.png",type);
-    int featherNum = rand()%3+2;
+    int featherNum = rand()%2+1;
     BirdUtil::createRandomFeather(this,featherName->getCString(),featherNum);
 }
 
@@ -178,11 +182,11 @@ void Bird::updatePosition(CCTouch *pTouch)
     }
 }
 
-void * Bird::getNeighbors(CCArray *neighbors)
+void Bird::getNeighbors(CCArray *neighbors)
 {
     if(neighbors->containsObject(this))
     {
-        return NULL;
+        return;
     }
     else
     {
@@ -213,6 +217,49 @@ void * Bird::getNeighbors(CCArray *neighbors)
     {
         up->getNeighbors(neighbors);
     }
-    return NULL;
+    return;
+}
+
+void Bird::shakeBody(CCNode *node,void *birdDashInfo)
+{
+    shakeTimes++;
+    if(shakeTimes==30)
+    {
+        DashInfo *di = (DashInfo*)birdDashInfo;
+        SimpleAudioEngine::sharedEngine()->playEffect("sounds/SFX/Bird_remove(2).mp3");
+        featherFly();
+        BirdUtil::birds[row][col] = NULL;
+        di->neighbors->removeObject(this);
+        removeFromParentAndCleanup(true);
+        if(di->neighbors->count()==0)
+        {
+            std::set<int>::iterator t1 = di->cols.begin();
+            CCLog("for update col num %d",di->cols.size());
+            while(t1!=di->cols.end())
+            {
+                BirdUtil::updateColPosition(*t1);
+                t1++;
+            }
+            di->cols.clear();
+            delete di;
+            BirdUtil::checkAlltoDrop();
+        }
+        return ;
+    }
+    int moveX = rand()%4+1;
+    int moveY = rand()%4+1;
+    int xDirc = rand()%2;
+    int yDirc = rand()%2;
+    if(xDirc)
+    {
+        moveX *= -1;
+    }
+    if(yDirc)
+    {
+        moveY *= -1;
+    }
+    CCActionInterval *shakeAction = CCMoveBy::create(0.02f,ccp(moveX,moveY));
+    CCCallFuncND *callback = CCCallFuncND::create(this,callfuncND_selector(Bird::shakeBody),birdDashInfo);
+    runAction(CCSequence::create(shakeAction,shakeAction->reverse(),callback,NULL));
 }
 
