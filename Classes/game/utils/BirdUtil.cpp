@@ -100,11 +100,11 @@ void BirdUtil::removeFeather( CCNode *node )
     node->removeFromParentAndCleanup(true);
 }
 
-void BirdUtil::updateColPosition( int col )
+void BirdUtil::updateColPosition( int col ,int row)
 {
     CCLog("updateColPosition");
-    int currentRow = 0;
-    for(int i=0; i<PP_ROW; i++)
+    int currentRow = row;
+    for(int i=row; i<PP_ROW; i++)
     {
         Bird *bird = BirdUtil::birds[i][col];
         if(bird&&bird->dragable)

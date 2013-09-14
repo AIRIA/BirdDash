@@ -8,7 +8,7 @@ bool ClassicScene::init()
     do
     {
         CC_BREAK_IF(!BaseScene::init());
-        SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/BGM/Play_bgm_long.mp3",true);
+     //   SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/BGM/Play_bgm_long.mp3",true);
         initBg();
         return true;
     }

@@ -160,10 +160,9 @@ void Bird::updatePosition(CCTouch *pTouch)
         reorderSelf();
         isFlying = true;
         BirdUtil::birds[row][col] = NULL;
-        int temp = col;
+        BirdUtil::updateColPosition(col,row);
         row = currentRow;
         col = currentCol;
-        BirdUtil::updateColPosition(temp);
         //限制小鸟重叠
         //如果左 左下 右 右下 和下方有小鸟的话 就限制位置
         int leftCol = col==0?col:col-1;

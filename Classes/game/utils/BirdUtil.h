@@ -22,7 +22,7 @@ private:
 public:
     static std::set<int> cols;
     /* 更新制定列中小鸟的位置 */
-    static void updateColPosition(int col);
+    static void updateColPosition(int col,int row=0);
     void removeFeather(CCNode *node);
     static BirdUtil *getInstance();
     static void initAnimate();
