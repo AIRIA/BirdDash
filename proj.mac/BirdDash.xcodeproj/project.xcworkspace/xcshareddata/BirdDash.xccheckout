@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>878F9D13-7116-4FDF-B9A2-80A5032241E8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BirdDash</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>201B61D6-1F7D-4EB4-B86F-B5FEA9B8F833</key>
+		<string>ssh://github.com/AIRIA/BirdDash.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>proj.mac/BirdDash.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>201B61D6-1F7D-4EB4-B86F-B5FEA9B8F833</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/AIRIA/BirdDash.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>201B61D6-1F7D-4EB4-B86F-B5FEA9B8F833</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>201B61D6-1F7D-4EB4-B86F-B5FEA9B8F833</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BirdDash</string>
+		</dict>
+	</array>
+</dict>
+</plist>

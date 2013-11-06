@@ -27,12 +27,14 @@ bool AppDelegate::applicationDidFinishLaunching()
 #if(CC_TARGET_PLATFORM==CC_PLATFORM_ANDROID)
     pDirector->runWithScene(SplashScene::create());
 #endif
+    pDirector->runWithScene(SplashScene::create());
 #if(CC_TARGET_PLATFORM!=CC_PLATFORM_ANDROID)
-	SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.0f);
-	SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.0f);
+	//SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.0f);
+	//SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.0f);
 	//pDirector->runWithScene(SplashScene::create());
     SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("sounds/BGM/Main_bgm.mp3");
-    pDirector->runWithScene(GameMain::create());
+    //pDirector->runWithScene(GameMain::create());
+    pDirector->runWithScene(SplashScene::create());
 #endif
     return true;
 }
